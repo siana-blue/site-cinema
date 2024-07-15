@@ -1,0 +1,225 @@
+@use "../variables" as *;
+
+@mixin horaires-style {
+  line-height: 2rem;
+  border-radius: 0.4rem;
+  border: 1px solid black;
+  box-shadow: 0px 0px 10px black;
+  text-align: center;
+}
+
+.alaffiche {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border: 1px solid black;
+  box-shadow: 0 0 3px;
+
+  background-color: rgba($neutral-color-light, 0.8);
+
+  h2 {
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    margin-bottom: 1rem;
+    background-color: $major-title-color;
+    color: white;
+    text-align: center;
+  }
+
+  h3 {
+    @include title-box;
+    font-size: 1.5rem;
+    line-height: 1.9rem;
+    display: block; // nécessaire pour gérer le ::before et ::after
+    // sinon ça fait une sorte de space-between non désiré
+  }
+
+  h4:not(.WRAPPED) {
+    @include title-box;
+
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
+
+  article:not(:last-of-type) {
+    margin-bottom: 6rem;
+  }
+
+  $affiche-principal-grid-row-end: 10;
+  .affiche-principal {
+    display: grid;
+    grid-template-columns: $size-affiche auto;
+    margin-bottom: 0.8rem;
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: $size-affiche-tablet auto;
+    }
+    @media (max-width: $breakpoint-smartphone) {
+      grid-template-columns: $size-affiche-smartphone auto;
+    }
+
+    // Affiche du film
+    img {
+      width: $size-affiche;
+      height: auto;
+      margin: 3px 0;
+      @media (max-width: $breakpoint-tablet) {
+        width: $size-affiche-tablet;
+      }
+      @media (max-width: $breakpoint-smartphone) {
+        width: $size-affiche-smartphone;
+      }
+
+      grid-row-start: 1;
+      grid-row-end: $affiche-principal-grid-row-end;
+    }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 0.5rem 2rem;
+
+      // image entre les boutons (jeunesse)
+      img {
+        width: calc(100% - 2 * 7rem);
+        height: auto;
+        object-fit: cover;
+      }
+
+      &:last-child {
+        grid-row-end: $affiche-principal-grid-row-end;
+      }
+    }
+
+    & > p {
+      margin: 0.8rem 2rem;
+    }
+
+    button {
+      width: 7rem;
+      height: 1.2rem;
+      font-size: 0.7rem;
+      text-align: center;
+      background-color: black;
+      color: white;
+      border-radius: 4px;
+      transition: 200ms;
+
+      &:hover {
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+
+  // Modificateurs pour les <article> de films (= "affiche")
+  .affiche--coupcoeur {
+    h3::before {
+      color: red;
+      content: "♥  ";
+    }
+  }
+  .affiche--vost {
+    h3::after {
+      color: $main-color;
+      content: " (VOST)";
+    }
+  }
+
+  .affiche-horaires {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include title-box;
+
+    p {
+      margin: 0.2rem 1.5rem;
+      width: 5rem;
+      text-align: center;
+      line-height: 1.3rem;
+      border: solid 1px black;
+      border-radius: 0.5rem;
+      color: black;
+
+      &:first-of-type {
+        background-color: $salle1-color;
+      }
+      background-color: $salle2-color;
+    }
+  }
+
+  // Les petits textes de couleur dans la section principale de l'affiche
+  .affiche-principal-p--spec {
+    color: $special-color;
+  }
+  .affiche-principal-p--short {
+    color: $main-color;
+  }
+  .affiche-principal-p--warning {
+    color: red;
+    text-align: center;
+  }
+
+  // Synopsis
+  h4 + p {
+    text-align: justify;
+    margin: 0.4rem;
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 2px;
+    margin-top: 0.4rem;
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 0.7rem;
+    }
+
+    th {
+      background-color: $header-color;
+      @include horaires-style;
+    }
+
+    td {
+      background-color: $neutral-color;
+      @include horaires-style;
+    }
+
+    .horaire-s1 {
+      background-color: $salle1-color;
+    }
+    .horaire-s2 {
+      background-color: $salle2-color;
+    }
+  }
+
+  .affiche-jeunesse {
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+
+    img {
+      width: 20%;
+      height: fit-content;
+      object-fit: cover;
+      margin-top: 0.8rem;
+      margin-bottom: 1.3rem;
+    }
+
+    div img {
+      width: 100%;
+    }
+
+    p {
+      font-weight: bold;
+      margin: 0.4rem;
+      text-align: center;
+    }
+  }
+}

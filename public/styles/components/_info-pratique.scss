@@ -1,0 +1,72 @@
+@use "../variables" as *;
+
+.info-pratique {
+  text-align: justify;
+  margin: 0.7rem;
+  background-color: rgba($neutral-color-light, 0.8);
+  font-family: "Raleway", sans-serif;
+
+  h3 {
+    @include title-box;
+  }
+
+  h4 {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  p,
+  h4,
+  button {
+    margin: 0.5rem;
+  }
+
+  &--large {
+    & div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      & p {
+        margin-right: 3rem;
+      }
+
+      & img {
+        margin-bottom: 2rem;
+        margin: 3px 3px;
+      }
+    }
+  }
+
+  &--situer {
+    color: $special-color;
+    background-color: rgba(aquamarine, 0.8);
+
+    p {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    div:first-of-type {
+      justify-content: left;
+    }
+
+    div:last-of-type {
+      justify-content: space-around;
+      align-items: center;
+    }
+  }
+
+  iframe {
+    height: 60%;
+    width: 60%;
+    margin-bottom: 1rem;
+  }
+
+  img {
+    width: 20%;
+    height: auto;
+    object-fit: cover;
+  }
+}

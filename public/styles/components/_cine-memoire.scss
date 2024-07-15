@@ -1,0 +1,42 @@
+@use "../variables" as *;
+
+.cine-memoire {
+  background-color: antiquewhite;
+  border: 2px solid black;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: "Raleway", sans-serif;
+
+  h2 {
+    font-size: 1.7rem;
+    margin: 1.5rem 1rem;
+    font-weight: bolder;
+  }
+
+  p {
+    font-weight: bold;
+  }
+}
+
+.cine-memoire-film {
+  h2 {
+    background-color: $special-color;
+    border: 1px solid black;
+    padding: 0.3rem;
+  }
+
+  div {
+    display: flex;
+    margin: 0.3rem 0.7rem;
+  }
+
+  p {
+    text-align: justify;
+    margin: 0 0.5rem;
+  }
+
+  img {
+    width: 45%;
+    height: auto;
+  }
+}

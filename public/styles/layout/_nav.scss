@@ -1,0 +1,235 @@
+@use "../variables" as *;
+
+nav {
+  display: flex;
+  justify-content: center;
+  color: white;
+
+  & > ul {
+    position: relative;
+    margin-bottom: 3rem;
+
+    display: flex;
+    justify-content: center;
+  }
+
+  li {
+    padding: 1rem 1rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    width: 8rem;
+    text-align: center;
+    position: relative;
+    border: 1px black solid;
+    background-color: $main-color;
+
+    &:first-of-type {
+      border-top-left-radius: 1em;
+      border-bottom-left-radius: 1em;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 1em;
+      border-bottom-right-radius: 1em;
+    }
+
+    &:hover {
+      background-color: lighten($main-color, 10%);
+    }
+
+    button {
+      display: none;
+    }
+  }
+}
+
+.dropdown {
+  display: none;
+  flex-direction: column;
+  border: 1px solid black;
+  background-color: $main-color;
+  position: absolute;
+  width: 100%;
+  left: -1px;
+  top: 0;
+  opacity: 0;
+
+  li {
+    border-radius: 0 !important;
+    border: none !important;
+    font-size: 0.8rem;
+    text-align: left;
+  }
+
+  :hover > & {
+    display: flex;
+    animation: dropdown-trigger 0.5s both;
+  }
+}
+
+@keyframes dropdown-trigger {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(3rem);
+  }
+}
+
+#burger-menu {
+  display: none;
+}
+
+@media (max-width: $breakpoint-smartphone) {
+  nav {
+    display: none;
+  }
+  nav.menu-open {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(white, 70%);
+
+    & > ul {
+      position: relative;
+      margin-bottom: none;
+      left: 30%;
+      width: 40%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    li {
+      border-radius: 0;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      background-color: transparent;
+      color: black;
+      border: none;
+    }
+
+    button {
+      display: inline;
+      border: none;
+      color: black;
+      font-weight: inherit;
+      font-size: inherit;
+      font-family: inherit;
+      background-color: transparent;
+
+      a {
+        margin-left: 0.5em;
+      }
+    }
+
+    .dropdown {
+      animation: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex: auto;
+      padding: 0;
+      margin: 0;
+
+      &.menu-open {
+        // Annulation
+        :hover & {
+          display: flex;
+        }
+        // ----------
+
+        color: black;
+        border: none;
+        background-color: transparent;
+        position: relative;
+        width: 70%;
+        left: 30%;
+        opacity: 1;
+      }
+
+      li {
+        display: none;
+      }
+      &.menu-open li {
+        display: block;
+        border-radius: 0 !important;
+        border: none !important;
+        font-size: 0.8rem;
+        text-align: left;
+        padding: 0.5rem;
+      }
+    }
+  }
+
+  // Bouton du burger menu
+  #burger-menu {
+    display: block;
+    background-color: $main-color;
+    width: 9vw;
+    height: 9vw;
+    border-radius: 5px;
+    border: 1px black solid;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: 3vw;
+    right: 3vw;
+
+    @mixin bread-slice {
+      width: 6vw;
+      height: 3px;
+      background-color: white;
+      position: absolute;
+      border-radius: 2px;
+    }
+
+    span {
+      @include bread-slice;
+      top: 4vw;
+      left: 1.2vw;
+
+      &::after,
+      &::before {
+        content: "";
+        @include bread-slice;
+        left: 0;
+        transform-origin: center;
+      }
+      &::after {
+        top: -1.8vw;
+      }
+      &::before {
+        top: 1.8vw;
+      }
+    }
+
+    .menu-open + & {
+      background-color: lighten($main-color, 30%);
+      z-index: 2;
+
+      span {
+        background-color: transparent;
+        transition: all 0.3s ease;
+
+        &::after {
+          transform: rotate(-45deg);
+          top: 0;
+        }
+        &::before {
+          transform: rotate(45deg);
+          top: 0;
+        }
+      }
+    }
+  }
+}

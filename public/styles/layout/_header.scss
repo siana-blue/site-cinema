@@ -1,0 +1,38 @@
+@use "../variables" as *;
+
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 3% 15%;
+  @media (max-width: $breakpoint-tablet) {
+    padding: 3% 20vw;
+    justify-content: space-between;
+
+    h1 {
+      display: none;
+    }
+  }
+
+  div {
+    align-self: stretch;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    text-align: right;
+
+    @media (max-width: $breakpoint-smartphone) {
+      font-size: 0.7rem;
+      p {
+        margin: 0.6rem 0;
+      }
+    }
+  }
+
+  & > img {
+    width: 20%;
+    height: auto;
+  }
+}

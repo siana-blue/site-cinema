@@ -1,0 +1,23 @@
+{
+  "name": "rex-chauvigny",
+  "version": "1.0.0",
+  "description": "Site web du cinéma Le REX - Chauvigny",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint ./public/scripts/*.js ./*.js",
+    "start": "node server.js",
+    "serverstart": "nodemon server.js"
+  },
+  "author": "siana",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0",
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pug": "^3.0.3"
+  }
+}

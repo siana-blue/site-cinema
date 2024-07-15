@@ -1,0 +1,44 @@
+@use "../variables" as *;
+
+.top-page {
+  background-color: rgba(180, 180, 180, 0.1);
+  color: gray;
+  text-align: center;
+  line-height: 2.5vw;
+  margin-right: 1rem;
+  margin-top: 0.7rem;
+  font-size: 1.5vw;
+  font-family: "Raleway", sans-serif;
+  width: 2.5vw;
+  height: 2.5vw;
+  border-radius: 50%;
+  align-self: end;
+  justify-self: end;
+  transition: 300ms;
+
+  @media (max-width: $breakpoint-smartphone) {
+    width: 4vw;
+    height: 4vw;
+    font-size: 3vw;
+    line-height: 4vw;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    font-size: 1.2vw;
+  }
+}
+
+.rainbow {
+  background: linear-gradient(
+    90deg,
+    violet,
+    indigo,
+    skyblue,
+    mediumturquoise,
+    lime,
+    orange
+  );
+  line-height: 1.5rem;
+  border-radius: 0.8rem;
+}

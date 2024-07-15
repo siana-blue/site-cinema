@@ -1,0 +1,38 @@
+$main-color: rgb(166, 11, 69);
+$neutral-color: darkgray;
+$neutral-color-light: lighten($neutral-color, 30%);
+$major-title-color: blue;
+$title-color: blueviolet;
+$special-color: darken(goldenrod, 10%);
+$secret-color: teal;
+$salle1-color: lightgreen;
+$salle2-color: indianred;
+$header-color: darkgreen;
+
+$size-main: 1280px;
+$size-affiche: 15vw;
+$size-affiche-tablet: 20vw;
+$size-affiche-smartphone: 40vw;
+
+$breakpoint-tablet: 948px;
+$breakpoint-smartphone: 600px;
+
+@function border-color($color) {
+  @return lighten($color, 20%);
+}
+
+@mixin themed-box($color) {
+  background-color: $color;
+  border: 2px solid border-color($color);
+}
+
+@mixin title-box {
+  background-color: $title-color;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 2px black;
+}

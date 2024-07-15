@@ -1,0 +1,58 @@
+@use "../variables" as *;
+
+/*
+.suez-one-regular {
+  font-family: "Suez One", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+
+.raleway-<uniquifier> {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+*/
+
+html {
+  font-family: "Suez One", serif;
+
+  font-size: 15px;
+  @media (max-width: $size-main) {
+    font-size: 1.1vw; // font-size/max-width
+  }
+  @media (max-width: $breakpoint-tablet) {
+    font-size: 1.5vw;
+  }
+  @media (max-width: $breakpoint-smartphone) {
+    font-size: 3.2vw;
+  }
+}
+
+body {
+  position: relative;
+}
+
+h1 {
+  font-size: 5rem;
+  text-decoration: underline;
+}
+
+strong,
+b {
+  font-weight: bolder;
+}
+
+mark,
+u {
+  text-decoration: underline;
+  background-color: inherit;
+}
+
+iframe {
+  border: none;
+}

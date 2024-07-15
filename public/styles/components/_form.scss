@@ -1,0 +1,16 @@
+.page-form {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-gap: 0.8em;
+  margin: 1em;
+
+  label {
+    color: white;
+    margin-right: 1em;
+    text-align: right;
+  }
+
+  button {
+    grid-column: 2 / 3;
+  }
+}

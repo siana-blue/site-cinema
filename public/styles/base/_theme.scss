@@ -1,0 +1,27 @@
+.theme-cinema {
+  background-image: url("../img/background-cinema.jpg");
+  background-position: 0 200px;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: 100%;
+
+  h1,
+  header p {
+    color: white;
+  }
+}
+
+.theme-chauvigny {
+  background-image: url("../img/chauvigny.webp");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .top-page {
+    background-color: black;
+  }
+
+  .PJ {
+    color: black;
+  }
+}
