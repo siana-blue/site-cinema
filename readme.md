@@ -17,10 +17,6 @@ Presque terminé pour la partie mise en page HTML/CSS, certains boutons ne sont 
 Le frontend est constitué de fichiers HTML/CSS statiques, stockés dans "public", transférés par la fonction express.static("public").
 Les views PUG ne sont utilisées que pour la mise en page par le webmaster, et non en dynamique sur requête de l'utilisateur.
 
-Il existe un formulaire actuellement caché, accessible par l'url "/form" depuis la racine du site (port 3000 local pour l'instant).
-Ce formulaire sert à mettre à jour les pages du site, à termes il ne sera accessible que par les personnes autorisées.
-Pour l'instant, il s'agit d'un test : l'administrateur ne peut que modifier le titre des pages.
-
 Dans l'utilisation courante du site, tous les fichiers utiles sont ceux du répertoire "public" et sont fournis de manière statique par express.
 Le site est pensé pour pouvoir fonctionner sans javascript, donc sans génération de pages à la volée par PUG. Le seul script de ce répertoire est index.js, il sert à gérer le burger menu pour la version mobile (définie par la taille du navigateur uniquement).
 Toutes les autres pages sont du HTML/CSS pur et ne nécessitent pas JS.
@@ -29,17 +25,14 @@ Toutes les autres pages sont du HTML/CSS pur et ne nécessitent pas JS.
 
 Le backend prend de l'importance pour la mise à jour du site par le webmaster.
 
-Il fonctionne sur le principe des tutoriels Express de MDN et d'OpenClassrooms (en gros), avec Express et les vues PUG, ainsi qu'une base de données MongoDB (pas encore fait).
-Pour l'instant dans ce commit initial, il s'agit d'une version test, seul le titre des pages peut être modifié.
+Il fonctionne sur le principe des tutoriels Express de MDN et d'OpenClassrooms (en gros), avec Express et les vues PUG, ainsi qu'une base de données MongoDB.
+Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie", on peut renseigner les propriétés d'un film.
+Avec le bouton prévisualiser, l'affiche et les caractéristiques du film apparaissent sous le formulaire comme ils apparaîtront dans les sections "à l'affiche". Ensuite, un bouton apparaît alors pour ajouter le film à la base de données MongoDB. L'utilisateur est alors redirigé vers la page d'accueil.
 
-A réception d'une requête POST depuis le formulaire situé à l'URL "/form/", un fichier HTML temporaire est créé au même emplacement que le fichier sélectionné (donc dans /public/), avec le suffixe "\_temp" ajouté au nom du fichier avant l'extension, prendant en compte la modification demandée dans le formulaire. La nouvelle page ainsi créée utilise les views PUG (c'est le seul moment où elles sont utilisées).
+A termes, il sera amené vers une page d'administration où tous les films de la base de données seront listés, et où l'administrateur pourra choisir ceux à afficher et à quelles dates.
 
-Pour le fonctionnement pérenne, il est prévu d'ajouter le workflow suivant :
-
-- Renseignement du formulaire en précisant : la page concernée, les modifications à apporter parmi une sélection pré-établie (titre de la page, affiches des films, descriptions etc...)
-- Création d'une page web temporaire avec le suffixe "\_temp", redirection vers cette page.
-- Validation par l'administrateur dans un formulaire spécifique, pour appliquer définitivement les modifications : tous les fichiers "temp" remplacent les fichiers originaux.
-- Peut-être prévoir un mode maintenance du site pour faire cela même si ce n'est pas long.
+Je supprime l'explication du workflow que j'avais en tête, car il faut que je repense tout.
+Je code un peu au fil de l'eau jusqu'à maintenant, pour appliquer les concepts appris. Il faut dorénavant que je trace un schéma clair de mon site et de comment je veux qu'il fonctionne.
 
 ## Notes
 
