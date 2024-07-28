@@ -1,0 +1,19 @@
+extends layout 
+
+block content
+  form.page-form(action='/movie' method='POST')
+    label(for='title') Titre du film :
+    input#title(type='text' name='title' value=movie?movie.title:'' required)
+    label(for='director') Réalisateur :
+    input#director(type='text' name='director' value=movie?movie.director:'' maxlength=100)
+    label(for='rating') Avis :
+    input#rating(type='range' name='rating' value=movie?movie.rating:3 min='1' max='5')
+    button(type='submit') Prévisualiser
+    - if (preview)
+      button(type='submit' formaction='/movie/create') Ajouter ce film à la base de données
+  
+  - if (preview)
+    section#affiche.alaffiche
+      h2 Prévisualisation
+      
+      include ./movie.pug

@@ -41,8 +41,19 @@ Pour le fonctionnement pérenne, il est prévu d'ajouter le workflow suivant :
 - Validation par l'administrateur dans un formulaire spécifique, pour appliquer définitivement les modifications : tous les fichiers "temp" remplacent les fichiers originaux.
 - Peut-être prévoir un mode maintenance du site pour faire cela même si ce n'est pas long.
 
-## Les petits oublis
+## Notes
 
 Le chat oublie des infos à certains endroits, obfuscat ne chasse pas le contenu des PUG notamment, mais rien n'est secret !
 
-La génération d'un fichier temp pour "infos-pratiques" ne respecte pas le thème car celui-ci est spécifié dans layout.pug et je n'ai pas fait de champ spécifique pour ça pour le moment.
+J'essaye de spécifier en HTML les champs width et height des images, comme recommandé dans l'articile suivant :
+https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/
+Pour le fichier movie.pug, je ne veux pas demander à l'utilisateur d'entrer ces champs, et je n'ai pas encore regardé comment les récupérer automatiquement, ainsi je mets par défaut les valeurs 150 et 200. Ce sera à améliorer.
+
+La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actuellement.
+
+### Ajout depuis le dernier commit
+
+- Connexion à une base MongoDB
+- Ajout d'un formulaire de création de nouveau film dans la base de données (embryonnaire) - accessible via l'URL ([localhost]/movie)
+- Route de gestion des erreurs (à approfondir)
+- Suppression de la route "update" pour le formulaire test de modification du titre de la page
