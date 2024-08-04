@@ -1,7 +1,8 @@
 extends layout 
 
+include ./movie.pug
 block content
-  form.page-form(action='/movie' method='POST')
+  form.page-form(action='/movie/form' method='POST')
     label(for='title') Titre du film :
     input#title(type='text' name='title' value=movie?movie.title:'' required)
     label(for='director') Réalisateur :
@@ -16,4 +17,4 @@ block content
     section#affiche.alaffiche
       h2 Prévisualisation
       
-      include ./movie.pug
+      +movie_detail(movie)

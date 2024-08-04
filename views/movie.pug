@@ -1,17 +1,18 @@
-article 
-  h3= movie.title 
-  .affiche-principal 
-    img(
-      src= movie.imgURL
-      alt= "Affiche du film " + movie.title
-      width= 150
-      height= 200
-    )
-    div 
-      p
-        | Réalisé par 
-        u= movie.director
-      p
-        | Avis - 
-        - for (let i=0;i<movie.rating;i++)
-          | *
+mixin movie_detail(movie)
+  article 
+    h3= movie.title 
+    .affiche-principal 
+      img(
+        src= movie.imgURL
+        alt= "Affiche du film " + movie.title
+        width= 150
+        height= 200
+      )
+      div 
+        p
+          | Réalisé par 
+          u= movie.director
+        p
+          | Avis - 
+          - for (let i=0;i<movie.rating;i++)
+            | *

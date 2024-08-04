@@ -3,8 +3,9 @@ const router = express.Router();
 
 const movies_controller = require("../controllers/moviesController");
 
-router.get("/", movies_controller.movie_form_get);
-router.post("/", movies_controller.movie_preview);
+router.get("/form", movies_controller.movie_form_get);
+router.post("/form", movies_controller.movie_preview);
 router.post("/create", movies_controller.movie_db_store);
+router.get("/", movies_controller.movie_list);
 
 module.exports = router;

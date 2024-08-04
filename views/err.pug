@@ -1,7 +1,7 @@
-h2 Validation errors
+h2 Errors
 if errors
   each err in errors
     p= err.path + ": " + err.msg
-  - if (error)
-      h2= error.status
-      pre #{error.stack}
+- if (error)
+    h2= error.status
+    pre #{error.stack}

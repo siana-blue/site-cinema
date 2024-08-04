@@ -44,9 +44,10 @@ Pour le fichier movie.pug, je ne veux pas demander à l'utilisateur d'entrer ces
 
 La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actuellement.
 
+Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait le faire dès la preview.
+
 ### Ajout depuis le dernier commit
 
-- Connexion à une base MongoDB
-- Ajout d'un formulaire de création de nouveau film dans la base de données (embryonnaire) - accessible via l'URL ([localhost]/movie)
-- Route de gestion des erreurs (à approfondir)
-- Suppression de la route "update" pour le formulaire test de modification du titre de la page
+- Changement dans la route "movie", la base est le catalogue des films, "form" affiche le formulaire d'ajout
+- Création de la vue PUG "movie-list" pour afficher l'intégralité des films de la base de données
+- Correction de la validation des champs titre et nom du réalisateur, pour accepter les tirets '-'.

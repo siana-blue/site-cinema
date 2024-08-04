@@ -1,0 +1,10 @@
+extends layout 
+
+include ./movie.pug
+
+block content
+  section.alaffiche
+    h2 Liste des films
+
+    each movie in movie_list 
+      +movie_detail(movie)

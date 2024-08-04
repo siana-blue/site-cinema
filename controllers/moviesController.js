@@ -4,6 +4,15 @@ const Movie = require("../models/movie");
 const fs = require("fs");
 const movie = require("../models/movie");
 
+exports.movie_list = async (req, res, next) => {
+  try {
+    const allMovies = await Movie.find().exec();
+    res.status(200).render("movie-list", { movie_list: allMovies });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.movie_form_get = (req, res, next) => {
   res.status(200).render("movie-form");
 };
@@ -28,7 +37,7 @@ exports.movie_db_store = [
     .isLength({ min: 1 })
     .escape()
     .withMessage("Le champ titre est obligatoire.")
-    .isAlphanumeric("fr-FR", { ignore: " " })
+    .isAlphanumeric("fr-FR", { ignore: " -" })
     .withMessage("Le champ titre contient des caractères non autorisés."),
   body("director")
     .optional({ values: "falsy" })
@@ -36,7 +45,7 @@ exports.movie_db_store = [
     .isLength({ max: 100 })
     .escape()
     .withMessage("Le champ réalisateur est trop long (< 100 caractères)")
-    .isAlphanumeric("fr-FR", { ignore: " " })
+    .isAlphanumeric("fr-FR", { ignore: " -" })
     .withMessage("Le champ réalisateur contient des caractères non autorisés."),
   body("rating")
     .trim()
@@ -57,7 +66,7 @@ exports.movie_db_store = [
         rating: req.body.rating,
       });
       await movie.save();
-      res.redirect("/index.html");
+      res.redirect("/movie/form");
     } catch (err) {
       next(err);
     }
