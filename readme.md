@@ -46,8 +46,10 @@ La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actu
 
 Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait le faire dès la preview.
 
+Il faudra penser à enlever la référence à l'URL localhost notamment dans le script client "movies_list.js"
+
 ### Ajout depuis le dernier commit
 
-- Changement dans la route "movie", la base est le catalogue des films, "form" affiche le formulaire d'ajout
-- Création de la vue PUG "movie-list" pour afficher l'intégralité des films de la base de données
-- Correction de la validation des champs titre et nom du réalisateur, pour accepter les tirets '-'.
+- Route /movie/db pour retourner du json filtré selon les paramètres de l'URL
+- Suppression de movie.pug, gestion de la liste des films par le front-end
+- Ajout du script client "movies_list.js" pour gérer la liste des films, actuellement statique, il faudra ensuite ajouter les boutons pour personnaliser le tri de la liste.

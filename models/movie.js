@@ -7,6 +7,7 @@ const MovieSchema = new Schema({
   director: { type: String, maxLength: 100 },
   rating: { type: Number, min: 1, max: 5 },
 });
+MovieSchema.set("toJSON", { virtuals: true });
 
 MovieSchema.virtual("imgURL").get(function () {
   return `/img/films/${this.title}.webp`;

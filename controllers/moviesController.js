@@ -30,6 +30,28 @@ exports.movie_preview = (req, res, next) => {
   });
 };
 
+exports.movie_db_get = async (req, res, next) => {
+  try {
+    let qry = Movie.find();
+    if (req.query.limit) {
+      qry.limit(req.query.limit);
+    }
+    if (req.query.sort) {
+      order = "asc";
+      switch (req.query.sort) {
+        case "rating":
+          order = "desc";
+          break;
+      }
+      qry.sort({ [req.query.sort]: order });
+    }
+    const movies = await qry.exec();
+    res.status(200).json(movies);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // A compléter/corriger
 exports.movie_db_store = [
   body("title")
