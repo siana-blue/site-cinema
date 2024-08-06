@@ -1,9 +1,14 @@
 extends layout 
 
-include ./movie.pug
-
 block content
   section.alaffiche
+    form
+      select#filters_select(name="filters")
+        option(value="" selected="") -- Filtrer selon --
+        option(value="title") Titre
+        option(value="director") Réalisateur
+        option(value="rating") Avis
+      button(type="submit") Test
     h2 Liste des films
 
   script(src="scripts/movies_list.js", defer="")

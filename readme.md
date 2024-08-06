@@ -50,6 +50,4 @@ Il faudra penser à enlever la référence à l'URL localhost notamment dans le 
 
 ### Ajout depuis le dernier commit
 
-- Route /movie/db pour retourner du json filtré selon les paramètres de l'URL
-- Suppression de movie.pug, gestion de la liste des films par le front-end
-- Ajout du script client "movies_list.js" pour gérer la liste des films, actuellement statique, il faudra ensuite ajouter les boutons pour personnaliser le tri de la liste.
+- Formulaire de filtres extrêmement basique pour /movie

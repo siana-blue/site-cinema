@@ -1,3 +1,8 @@
+function clearMovies() {
+  const movies = document.querySelectorAll(".alaffiche article");
+  movies.forEach((movie) => movie.remove());
+}
+
 async function displayMovies(sort, limit) {
   // Penser à rendre les paramètres optionnels et adapter l'url plus tard
   let movies = await fetch(
@@ -43,3 +48,13 @@ async function displayMovies(sort, limit) {
 }
 
 displayMovies("title", "5");
+
+const filterForm = document.querySelector(".alaffiche form");
+filterForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (filterForm.filters.value) {
+    clearMovies();
+    displayMovies(filterForm.filters.value, "5");
+  }
+});
