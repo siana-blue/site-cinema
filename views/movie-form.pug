@@ -1,6 +1,7 @@
 extends layout 
 
 include ./movie.pug
+include ./person-form.pug
 block content
   form.page-form(action='/movie/form' method='POST')
     label(for='title') Titre du film :
@@ -13,6 +14,8 @@ block content
     - if (preview)
       button(type='submit' formaction='/movie/create') Ajouter ce film à la base de données
   
+  +person_form
+
   - if (preview)
     section#affiche.alaffiche
       h2 Prévisualisation

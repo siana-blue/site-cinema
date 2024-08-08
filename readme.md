@@ -26,7 +26,7 @@ Toutes les autres pages sont du HTML/CSS pur et ne nécessitent pas JS.
 Le backend prend de l'importance pour la mise à jour du site par le webmaster.
 
 Il fonctionne sur le principe des tutoriels Express de MDN et d'OpenClassrooms (en gros), avec Express et les vues PUG, ainsi qu'une base de données MongoDB.
-Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie", on peut renseigner les propriétés d'un film.
+Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie/form", on peut renseigner les propriétés d'un film.
 Avec le bouton prévisualiser, l'affiche et les caractéristiques du film apparaissent sous le formulaire comme ils apparaîtront dans les sections "à l'affiche". Ensuite, un bouton apparaît alors pour ajouter le film à la base de données MongoDB. L'utilisateur est alors redirigé vers la page d'accueil.
 
 A termes, il sera amené vers une page d'administration où tous les films de la base de données seront listés, et où l'administrateur pourra choisir ceux à afficher et à quelles dates.
@@ -47,7 +47,3 @@ La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actu
 Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait le faire dès la preview.
 
 Il faudra penser à enlever la référence à l'URL localhost notamment dans le script client "movies_list.js"
-
-### Ajout depuis le dernier commit
-
-- Formulaire de filtres extrêmement basique pour /movie

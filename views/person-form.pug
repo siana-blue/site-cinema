@@ -1,0 +1,8 @@
+mixin person_form
+  form#person-form.page-form(action='/person/create' method='POST')
+    legend Ajouter une personne
+    label(for='name') Nom :
+    input#name(type='text' name='name')
+    label(for='url') Lien vers la page Web :
+    input#url(type='text' name='url')
+    button(type='submit') Ajouter

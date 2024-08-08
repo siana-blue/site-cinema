@@ -2,7 +2,6 @@ const { body, validationResult } = require("express-validator");
 const Movie = require("../models/movie");
 
 const fs = require("fs");
-const movie = require("../models/movie");
 
 exports.movie_list = async (req, res, next) => {
   try {
