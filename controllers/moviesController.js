@@ -1,31 +1,38 @@
 const { body, validationResult } = require("express-validator");
 const Movie = require("../models/movie");
+const Person = require("../models/person");
 
 const fs = require("fs");
 
 exports.movie_list = async (req, res, next) => {
   try {
-    const allMovies = await Movie.find().exec();
+    const allMovies = await Movie.find().populate("director").exec();
     res.status(200).render("movie-list", { movie_list: allMovies });
   } catch (err) {
     next(err);
   }
 };
 
-exports.movie_form_get = (req, res, next) => {
-  res.status(200).render("movie-form");
+exports.movie_form_get = async (req, res, next) => {
+  const allPersons = await Person.find().sort({ name: 1 }).exec();
+  res.status(200).render("movie-form", { persons: allPersons });
 };
 
-exports.movie_preview = (req, res, next) => {
+exports.movie_preview = async (req, res, next) => {
+  const allPersons = await Person.find().sort({ name: 1 }).exec();
+  const dir = await Person.findOne({ _id: req.body.director_id }).exec();
+
   const movie = new Movie({
     title: req.body.title,
-    director: req.body.director,
+    director: req.body.director_id,
     rating: req.body.rating,
   });
+  await movie.populate("director");
 
   res.status(200).render("movie-form", {
     preview: true,
     movie: movie,
+    persons: allPersons,
   });
 };
 
@@ -44,7 +51,8 @@ exports.movie_db_get = async (req, res, next) => {
       }
       qry.sort({ [req.query.sort]: order });
     }
-    const movies = await qry.exec();
+    const movies = await qry.populate("director").exec();
+
     res.status(200).json(movies);
   } catch (err) {
     next(err);
@@ -56,18 +64,10 @@ exports.movie_db_store = [
   body("title")
     .trim()
     .isLength({ min: 1 })
-    .escape()
     .withMessage("Le champ titre est obligatoire.")
-    .isAlphanumeric("fr-FR", { ignore: " -" })
-    .withMessage("Le champ titre contient des caractères non autorisés."),
-  body("director")
-    .optional({ values: "falsy" })
-    .trim()
-    .isLength({ max: 100 })
-    .escape()
-    .withMessage("Le champ réalisateur est trop long (< 100 caractères)")
-    .isAlphanumeric("fr-FR", { ignore: " -" })
-    .withMessage("Le champ réalisateur contient des caractères non autorisés."),
+    .isAlphanumeric("fr-FR", { ignore: " -'" })
+    .withMessage("Le champ titre contient des caractères non autorisés.")
+    .escape(),
   body("rating")
     .trim()
     .isInt({ min: 1, max: 5 })
@@ -83,7 +83,7 @@ exports.movie_db_store = [
 
       const movie = new Movie({
         title: req.body.title,
-        director: req.body.director,
+        director: req.body.director_id,
         rating: req.body.rating,
       });
       await movie.save();

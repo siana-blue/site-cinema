@@ -14,14 +14,19 @@ async function displayMovies(sort, limit) {
   movies.forEach(function (movie) {
     let movieElement = document.createElement("article");
     let h3Element = document.createElement("h3");
-    h3Element.appendChild(document.createTextNode(movie.title));
+    h3Element.appendChild(
+      document.createTextNode(movie.title.replace("&#x27;", "'"))
+    );
     movieElement.appendChild(h3Element);
 
     let divMainElement = document.createElement("div");
     divMainElement.classList.add("affiche-principal");
     let img = document.createElement("img");
     img.setAttribute("src", movie.imgURL);
-    img.setAttribute("alt", "Affiche du film " + movie.title);
+    img.setAttribute(
+      "alt",
+      "Affiche du film " + movie.title.replace("&#x27;", "'")
+    );
     img.setAttribute("width", 150);
     img.setAttribute("height", 200);
     divMainElement.appendChild(img);
@@ -29,8 +34,11 @@ async function displayMovies(sort, limit) {
     let pElement = document.createElement("p");
     pElement.appendChild(document.createTextNode("Réalisé par "));
     let aElement = document.createElement("a");
-    aElement.setAttribute("href", "#");
-    aElement.appendChild(document.createTextNode(movie.director));
+    aElement.setAttribute("href", movie.director ? movie.director.url : "#");
+    aElement.setAttribute("target", "_blank");
+    aElement.appendChild(
+      document.createTextNode(movie.director ? movie.director.name : "")
+    );
     pElement.append(aElement);
     divElement.appendChild(pElement);
     pElement = document.createElement("p");

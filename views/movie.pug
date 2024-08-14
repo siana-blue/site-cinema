@@ -11,7 +11,7 @@ mixin movie_detail(movie)
       div 
         p
           | Réalisé par 
-          a(href=movie.director.url) #{movie.director.name}
+          a(href=movie.director.url target="_blank") #{movie.director.name}
         p
           | Avis - 
           - for (let i=0;i<movie.rating;i++)

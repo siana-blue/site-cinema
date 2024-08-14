@@ -23,6 +23,6 @@ exports.person_db_store = [
       url: req.body.url,
     });
     await person.save();
-    res.status(200).render("movie-form");
+    res.status(200).redirect("/movie/form");
   },
 ];

@@ -47,3 +47,5 @@ La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actu
 Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait le faire dès la preview.
 
 Il faudra penser à enlever la référence à l'URL localhost notamment dans le script client "movies_list.js"
+
+Les champs escape, notamment le titre des films, génèrent des codes HTML dans la base de données : .replace("&#x27;", "'") est donc parfois utilisé un peu partout lors de la lecture des données, il faudrait centraliser cette gestion.
