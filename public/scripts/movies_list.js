@@ -49,6 +49,25 @@ async function displayMovies(sort, limit) {
     divElement.appendChild(pElement);
     divMainElement.appendChild(divElement);
 
+    if (movie.actors.length > 0) {
+      pElement = document.createElement("p");
+      pElement.appendChild(document.createTextNode("Avec "));
+
+      for (let i = 0; i < movie.actors.length; i++) {
+        aElement = document.createElement("a");
+        aElement.setAttribute("target", "_blank");
+        aElement.setAttribute("href", movie.actors[i].url ?? "#");
+        aElement.appendChild(
+          document.createTextNode(
+            `${movie.actors[i].name}${i < movie.actors.length - 1 ? ", " : ""}`
+          )
+        );
+        pElement.appendChild(aElement);
+      }
+      pElement.appendChild(document.createElement("br"));
+      divMainElement.appendChild(pElement);
+    }
+
     movieElement.appendChild(divMainElement);
 
     listElement.appendChild(movieElement);

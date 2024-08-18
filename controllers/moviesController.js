@@ -14,20 +14,32 @@ exports.movie_list = async (req, res, next) => {
 };
 
 exports.movie_form_get = async (req, res, next) => {
-  const allPersons = await Person.find().sort({ name: 1 }).exec();
+  const allPersons = await Person.find()
+    .sort({ name: 1 })
+    .collation({ locale: "fr" })
+    .exec();
   res.status(200).render("movie-form", { persons: allPersons });
 };
 
 exports.movie_preview = async (req, res, next) => {
-  const allPersons = await Person.find().sort({ name: 1 }).exec();
-  const dir = await Person.findOne({ _id: req.body.director_id }).exec();
+  const allPersons = await Person.find()
+    .sort({ name: 1 })
+    .collation({ locale: "fr" })
+    .exec();
+
+  // Méthode "hidden"
+  // Les données reçues ne sont pas un tableau
+  // Il faut les mettre en tableau
+  req.body.actors_id = req.body.actors_id_hid.split(";");
 
   const movie = new Movie({
     title: req.body.title,
     director: req.body.director_id,
     rating: req.body.rating,
+    actors: req.body.actors_id,
   });
   await movie.populate("director");
+  await movie.populate("actors");
 
   res.status(200).render("movie-form", {
     preview: true,
@@ -51,7 +63,7 @@ exports.movie_db_get = async (req, res, next) => {
       }
       qry.sort({ [req.query.sort]: order });
     }
-    const movies = await qry.populate("director").exec();
+    const movies = await qry.populate("director actors").exec();
 
     res.status(200).json(movies);
   } catch (err) {
@@ -81,10 +93,15 @@ exports.movie_db_store = [
         return res.status(500).render("err", { errors: errors.array() });
       }
 
+      // Méthode "hidden"
+      // Les données reçues ne sont pas un tableau
+      // Il faut les mettre en tableau
+      req.body.actors_id = req.body.actors_id_hid.split(";");
       const movie = new Movie({
         title: req.body.title,
         director: req.body.director_id,
         rating: req.body.rating,
+        actors: req.body.actors_id,
       });
       await movie.save();
       res.redirect("/movie/form");

@@ -11,8 +11,14 @@ mixin movie_detail(movie)
       div 
         p
           | Réalisé par 
-          a(href=movie.director.url target="_blank") #{movie.director.name}
+          a(href=movie.director.url?movie.director.url:"#" target="_blank") #{movie.director.name}
         p
           | Avis - 
           - for (let i=0;i<movie.rating;i++)
             | *
+      p 
+        | Avec 
+        - for (let i=0;i<movie.actors.length;i++)
+          - const url = movie.actors[i].url ?? "#"
+            a(href=url target="_blank") #{movie.actors[i].name}#{(i < movie.actors.length-1)?", ":""}
+        br

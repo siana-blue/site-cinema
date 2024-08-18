@@ -3,7 +3,9 @@ extends layout
 include ./movie.pug
 include ./person-form.pug
 block content
-  form.page-form(action='/movie/form' method='POST')
+  script(src="scripts/movie_form.js", defer="")
+
+  form#movie-form.page-form(action='/movie/form' method='POST')
     label(for='title') Titre du film :
     input#title(type='text' name='title' value=movie?movie.title:'' required)
     label(for='director') Réalisateur :
@@ -16,9 +18,23 @@ block content
           option(value=person._id) #{person.name}
     label(for='rating') Avis :
     input#rating(type='range' name='rating' value=movie?movie.rating:3 min='1' max='5')
-    button(type='submit') Prévisualiser
+    label(for='actors') Acteurs :
+    select#actors(name='actors_id_tmp')
+      option(value=null) -- Ajouter un acteur --
+      each person in persons 
+        option(value=`${person._id};${person.name}`) #{person.name}
+    .current-selection-list 
+      if (movie)
+        each actor in movie.actors 
+          div
+            p
+              span(hidden="") #{actor.id};
+              |#{actor.name}
+            button &times;
+    input(type='hidden' name='actors_id_hid')
+    button#movie-preview-btn(type='submit') Prévisualiser
     - if (preview)
-      button(type='submit' formaction='/movie/create') Ajouter ce film à la base de données
+      button#movie-create-btn(type='submit' formaction='/movie/create') Ajouter ce film à la base de données
   
   +person_form
 

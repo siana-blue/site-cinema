@@ -49,3 +49,7 @@ Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait
 Il faudra penser à enlever la référence à l'URL localhost notamment dans le script client "movies_list.js"
 
 Les champs escape, notamment le titre des films, génèrent des codes HTML dans la base de données : .replace("&#x27;", "'") est donc parfois utilisé un peu partout lors de la lecture des données, il faudrait centraliser cette gestion.
+
+Pour le formulaire movie-form.pug, certains champs (actors) reçoivent des données d'un input hidden, donc une String, qu'il faut convertir en tableau pour avoir un format de données adéquat pour son traitement ensuite. Cela fait du code répétitif. J'aurai voulu convertir cela en front end avant envoi au back end, en gérant le submit event en front end avant d'envoyer un formulaire dont les données (FormData) sont modifiées, au backend. Je n'y arrive pas ! Ce sera à travailler. (voir méthode "hidden" et le script public/scripts/movie_form.js)
+
+Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
