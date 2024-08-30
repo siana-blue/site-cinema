@@ -2,7 +2,7 @@ const actorsSelect = document.getElementById("actors");
 const actorsCurSel = document.querySelector(
   "#actors + .current-selection-list"
 );
-// J'utilise le hidden tant que je ne sais pas faire mieux (méthode "hidden")
+
 const actorsHiddenInput = document.querySelector("#actors ~ input");
 
 let actorsArr = [];
@@ -21,52 +21,15 @@ actorsSelect.addEventListener("change", function () {
   }
 });
 
-// Méthode fetch non maîtrisée, je ne parviens pas à
-// render les fichiers PUG par cette méthode
-// ==> méthode "hidden" en attendant
-// Elle s'étend à moviesController.js
-/*
-const movieForm = document.getElementById("movie-form");
-movieForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  let data = new FormData(movieForm);
-  let actIds = [];
-  actorsArr.forEach((actor) => {
-    actIds.push(actor.split(";")[0]);
-  });
-
-  data.append("actors_id", actIds);
-
-  switch (event.submitter.id) {
-    case "movie-preview-btn":
-      fetch("http://localhost:3000/movie/form", {
-        method: "POST",
-        body: data,
-      });
-      break;
-    case "movie-create-btn":
-      fetch("http://localhost:3000/movie/create", {
-        method: "POST",
-        body: data,
-      });
-      break;
-  }
-});
-*/
-
 const updateActorList = function () {
   actorsCurSel.replaceChildren();
 
-  // Utilisé temporairement (méthode hidden)
   actorsHiddenInput.value = "";
 
   actorsArr.forEach((actor) => {
-    // Méthode "hidden"
     const actorId = actor.split(";")[0];
     actorsHiddenInput.value +=
       (actorsHiddenInput.value === "" ? "" : ";") + actorId;
-    // ----------------
 
     const actorName = actor.split(";")[1];
 
@@ -82,7 +45,6 @@ const updateActorList = function () {
     divElement.appendChild(btnElement);
     actorsCurSel.appendChild(divElement);
   });
-  console.log(actorsHiddenInput.value);
 };
 
 const removeActorSelection = function (actor) {

@@ -27,9 +27,6 @@ exports.movie_preview = async (req, res, next) => {
     .collation({ locale: "fr" })
     .exec();
 
-  // Méthode "hidden"
-  // Les données reçues ne sont pas un tableau
-  // Il faut les mettre en tableau
   req.body.actors_id = req.body.actors_id_hid.split(";");
 
   const movie = new Movie({
@@ -37,9 +34,9 @@ exports.movie_preview = async (req, res, next) => {
     director: req.body.director_id,
     rating: req.body.rating,
     actors: req.body.actors_id,
+    length: req.body.length,
   });
-  await movie.populate("director");
-  await movie.populate("actors");
+  await movie.populate("director actors");
 
   res.status(200).render("movie-form", {
     preview: true,
@@ -65,7 +62,7 @@ exports.movie_db_get = async (req, res, next) => {
     }
     const movies = await qry.populate("director actors").exec();
 
-    res.status(200).json(movies);
+    res.status(200).render("movie-list-element", { movies: movies });
   } catch (err) {
     next(err);
   }
@@ -84,6 +81,7 @@ exports.movie_db_store = [
     .trim()
     .isInt({ min: 1, max: 5 })
     .withMessage("La note doit être comprise entre 1 et 5"),
+  body("length").trim().escape(),
 
   async (req, res, next) => {
     try {
@@ -93,15 +91,13 @@ exports.movie_db_store = [
         return res.status(500).render("err", { errors: errors.array() });
       }
 
-      // Méthode "hidden"
-      // Les données reçues ne sont pas un tableau
-      // Il faut les mettre en tableau
       req.body.actors_id = req.body.actors_id_hid.split(";");
       const movie = new Movie({
         title: req.body.title,
         director: req.body.director_id,
         rating: req.body.rating,
         actors: req.body.actors_id,
+        length: req.body.length,
       });
       await movie.save();
       res.redirect("/movie/form");

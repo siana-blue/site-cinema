@@ -32,6 +32,8 @@ block content
               |#{actor.name}
             button &times;
     input(type='hidden' name='actors_id_hid')
+    label(for='length') Durée (format - 0h00 / 00m) :
+    input#length(type='text' name='length' value=movie?movie.length:'')
     button#movie-preview-btn(type='submit') Prévisualiser
     - if (preview)
       button#movie-create-btn(type='submit' formaction='/movie/create') Ajouter ce film à la base de données

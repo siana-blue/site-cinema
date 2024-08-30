@@ -9,16 +9,24 @@ mixin movie_detail(movie)
         height= 200
       )
       div 
-        p
-          | Réalisé par 
-          a(href=movie.director.url?movie.director.url:"#" target="_blank") #{movie.director.name}
+        if movie.director
+          p
+            | Réalisé par 
+            a(href=movie.director.url?movie.director.url:"#" target="_blank") #{movie.director.name}
+        else 
+          p Réalisateur non renseigné
         p
           | Avis - 
           - for (let i=0;i<movie.rating;i++)
             | *
       p 
-        | Avec 
-        - for (let i=0;i<movie.actors.length;i++)
-          - const url = movie.actors[i].url ?? "#"
-            a(href=url target="_blank") #{movie.actors[i].name}#{(i < movie.actors.length-1)?", ":""}
+        if movie.actors.length > 0
+          | Avec 
+          - for (let i=0;i<movie.actors.length;i++)
+            - const url = movie.actors[i].url ?? "#"
+              a(href=url target="_blank") #{movie.actors[i].name}#{(i < movie.actors.length-1)?", ":""}
+        else 
+          | Acteurs non renseignés
         br
+        | Durée : 
+        b #{movie.length}

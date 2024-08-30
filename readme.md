@@ -53,3 +53,9 @@ Les champs escape, notamment le titre des films, génèrent des codes HTML dans 
 Pour le formulaire movie-form.pug, certains champs (actors) reçoivent des données d'un input hidden, donc une String, qu'il faut convertir en tableau pour avoir un format de données adéquat pour son traitement ensuite. Cela fait du code répétitif. J'aurai voulu convertir cela en front end avant envoi au back end, en gérant le submit event en front end avant d'envoyer un formulaire dont les données (FormData) sont modifiées, au backend. Je n'y arrive pas ! Ce sera à travailler. (voir méthode "hidden" et le script public/scripts/movie_form.js)
 
 Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
+
+## Last Commit
+
+Utilisation d'Ajax pour récupérer les \<article\> au format HTML afin de créer les affiches de film, depuis un fichier JS "front-end" (movies_list.js), depuis un fichier PUG rendered en backend. C'est bien mieux que le doublon que je faisais avec du PUG pour la preview en backend et une liste immonde de document.createElement dans la version frontend, pour la même mise en page d'affiche.
+
+(ce readme que j'écris au fil de l'eau sera refactor un de ces jours aussi, en même temps que tout le reste du code, mais pour l'instant je continue d'explorer au fur et à mesure que j'avance sans trop me contraindre)
