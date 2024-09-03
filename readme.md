@@ -56,6 +56,6 @@ Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour av
 
 ## Last Commit
 
-Utilisation d'Ajax pour récupérer les \<article\> au format HTML afin de créer les affiches de film, depuis un fichier JS "front-end" (movies_list.js), depuis un fichier PUG rendered en backend. C'est bien mieux que le doublon que je faisais avec du PUG pour la preview en backend et une liste immonde de document.createElement dans la version frontend, pour la même mise en page d'affiche.
-
-(ce readme que j'écris au fil de l'eau sera refactor un de ces jours aussi, en même temps que tout le reste du code, mais pour l'instant je continue d'explorer au fur et à mesure que j'avance sans trop me contraindre)
+Ajout d'un formulaire pour ajouter des objets Genre à la base de données, sur exactement la même architecture que Person.
+Le prochain Commit sera le début d'un refactor du code (je ne sais pas si j'utilise bien ce terme encore).
+Trop de répétitions, trop brouillon, je vais commencer à repenser toute l'architecture du machin.

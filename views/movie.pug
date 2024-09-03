@@ -1,6 +1,10 @@
-mixin movie_detail(movie)
+mixin movie_detail(movie, edit)
   article 
     h3= movie.title 
+    if (edit)
+      form(action='/movie/form' method='POST') 
+        input(type='hidden' name='movie_id' value=movie._id)
+        button(type='submit') Modifier
     .affiche-principal 
       img(
         src= movie.imgURL
@@ -30,3 +34,6 @@ mixin movie_detail(movie)
         br
         | Durée : 
         b #{movie.length}
+        if movie.genre
+          |  - Genre : 
+          a(href=movie.genre.url?movie.genre.url:"#" target="_blank") #{movie.genre.name}

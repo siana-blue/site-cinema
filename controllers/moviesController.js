@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const Movie = require("../models/movie");
 const Person = require("../models/person");
+const Genre = require("../models/genre");
 
 const fs = require("fs");
 
@@ -18,7 +19,13 @@ exports.movie_form_get = async (req, res, next) => {
     .sort({ name: 1 })
     .collation({ locale: "fr" })
     .exec();
-  res.status(200).render("movie-form", { persons: allPersons });
+  const allGenres = await Genre.find()
+    .sort({ name: 1 })
+    .collation({ locale: "fr" })
+    .exec();
+  res
+    .status(200)
+    .render("movie-form", { persons: allPersons, genres: allGenres });
 };
 
 exports.movie_preview = async (req, res, next) => {
@@ -26,22 +33,33 @@ exports.movie_preview = async (req, res, next) => {
     .sort({ name: 1 })
     .collation({ locale: "fr" })
     .exec();
+  const allGenres = await Genre.find()
+    .sort({ name: 1 })
+    .collation({ locale: "fr" })
+    .exec();
 
-  req.body.actors_id = req.body.actors_id_hid.split(";");
+  let movie;
+  if (req.body.movie_id) {
+    movie = await Movie.findOne({ _id: req.body.movie_id }).exec();
+  } else {
+    req.body.actors_id = req.body.actors_id_hid.split(";");
 
-  const movie = new Movie({
-    title: req.body.title,
-    director: req.body.director_id,
-    rating: req.body.rating,
-    actors: req.body.actors_id,
-    length: req.body.length,
-  });
-  await movie.populate("director actors");
+    movie = new Movie({
+      title: req.body.title,
+      director: req.body.director_id,
+      rating: req.body.rating,
+      actors: req.body.actors_id,
+      length: req.body.length,
+      genre: req.body.genre_id,
+    });
+  }
+  await movie.populate("director actors genre");
 
   res.status(200).render("movie-form", {
     preview: true,
     movie: movie,
     persons: allPersons,
+    genres: allGenres,
   });
 };
 
@@ -62,13 +80,14 @@ exports.movie_db_get = async (req, res, next) => {
     }
     const movies = await qry.populate("director actors").exec();
 
-    res.status(200).render("movie-list-element", { movies: movies });
+    res
+      .status(200)
+      .render("movie-list-element", { movies: movies, edit: true });
   } catch (err) {
     next(err);
   }
 };
 
-// A compléter/corriger
 exports.movie_db_store = [
   body("title")
     .trim()
@@ -98,8 +117,10 @@ exports.movie_db_store = [
         rating: req.body.rating,
         actors: req.body.actors_id,
         length: req.body.length,
+        genre: req.body.genre_id,
       });
       await movie.save();
+
       res.redirect("/movie/form");
     } catch (err) {
       next(err);

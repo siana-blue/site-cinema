@@ -13,7 +13,7 @@ async function displayMovies(sort, limit) {
   listElement.insertAdjacentHTML("beforeend", movies);
 }
 
-displayMovies("title", "5");
+displayMovies("title", "10");
 
 const filterForm = document.querySelector(".alaffiche form");
 filterForm.addEventListener("submit", (event) => {
@@ -21,6 +21,6 @@ filterForm.addEventListener("submit", (event) => {
 
   if (filterForm.filters.value) {
     clearMovies();
-    displayMovies(filterForm.filters.value, "5");
+    displayMovies(filterForm.filters.value, "10");
   }
 });

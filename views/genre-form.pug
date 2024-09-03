@@ -1,0 +1,8 @@
+mixin genre_form
+  form#genre-form.page-form(action='/genre/create' method='POST')
+    legend Ajouter un genre
+    label(for='name') Nom :
+    input#name(type='text' name='name')
+    label(for='url') Lien vers la page Web :
+    input#url(type='text' name='url')
+    button(type='submit') Ajouter

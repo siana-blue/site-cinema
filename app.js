@@ -24,9 +24,11 @@ app.use(express.static("public"));
 // Définition des routes
 const moviesRouter = require("./routes/movies");
 const personsRouter = require("./routes/persons");
+const genresRouter = require("./routes/genres");
 
 app.use("/movie", moviesRouter);
 app.use("/person", personsRouter);
+app.use("/genre", genresRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

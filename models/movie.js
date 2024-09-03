@@ -17,6 +17,7 @@ const MovieSchema = new Schema({
     },
     message: (p) => `${p} n'est pas une durée valide.`,
   },
+  genre: { type: Schema.Types.ObjectId, ref: "Genre" },
 });
 MovieSchema.set("toJSON", { virtuals: true });
 
