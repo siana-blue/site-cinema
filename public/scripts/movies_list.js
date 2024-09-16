@@ -4,9 +4,8 @@ function clearMovies() {
 }
 
 async function displayMovies(sort, limit) {
-  // Penser à rendre les paramètres optionnels et adapter l'url plus tard
   let movies = await fetch(
-    `http://localhost:3000/movie/db?sort=${sort}&limit=${limit}`
+    `http://localhost:3000/db/movie?sort=${sort}&limit=${limit}`
   ).then((movies) => movies.text());
 
   const listElement = document.querySelector(".alaffiche");

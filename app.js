@@ -5,8 +5,7 @@ const app = express();
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB =
-  "mongodb+srv://anaisvernet44:UyU1MHmz9Ro2Maaf@cluster0.atmfcsi.mongodb.net/REX-movies?retryWrites=true&w=majority&appName=Cluster0";
+const { mongoDB } = require("./var");
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -23,12 +22,10 @@ app.use(express.static("public"));
 
 // Définition des routes
 const moviesRouter = require("./routes/movies");
-const personsRouter = require("./routes/persons");
-const genresRouter = require("./routes/genres");
+const dbRouter = require("./routes/db");
 
-app.use("/movie", moviesRouter);
-app.use("/person", personsRouter);
-app.use("/genre", genresRouter);
+app.use("/movies", moviesRouter);
+app.use("/db", dbRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

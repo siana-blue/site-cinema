@@ -54,8 +54,6 @@ Pour le formulaire movie-form.pug, certains champs (actors) reçoivent des donn�
 
 Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
 
-## Last Commit
+## Architecture
 
-Ajout d'un formulaire pour ajouter des objets Genre à la base de données, sur exactement la même architecture que Person.
-Le prochain Commit sera le début d'un refactor du code (je ne sais pas si j'utilise bien ce terme encore).
-Trop de répétitions, trop brouillon, je vais commencer à repenser toute l'architecture du machin.
+Point d'entrée : server.js
