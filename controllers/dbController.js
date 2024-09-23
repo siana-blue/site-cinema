@@ -1,5 +1,11 @@
 const { body, validationResult } = require("express-validator");
-const { dbGetObjs, dbSaveObj, makeObj } = require("../db");
+const {
+  dbGetObjs,
+  dbSaveObj,
+  makeObj,
+  dbGetObjById,
+  updateObj,
+} = require("../db");
 
 exports.db_obj_get = async (req, res, next) => {
   const objs = await dbGetObjs(req.params.obj, req.query);
@@ -23,19 +29,23 @@ exports.db_obj_store = [
           .isLength({ min: 1 })
           .withMessage("Le champ titre est obligatoire.")
           .isAlphanumeric("fr-FR", { ignore: " -'" })
-          .withMessage("Le champ titre contient des caractères non autorisés.")
-          .escape();
+          .withMessage("Le champ titre contient des caractères non autorisés.");
         body("rating")
           .trim()
           .isInt({ min: 1, max: 5 })
           .withMessage("La note doit être comprise entre 1 et 5");
         body("length").trim().escape();
+        body("synopsis")
+          .trim()
+          .isAlphanumeric("fr-FR", { ignore: " -'" })
+          .withMessage(
+            "Le champ synopsis contient des caractères non autorisés."
+          );
         break;
       default:
         body("name")
           .trim()
           .isLength({ min: 1 })
-          .escape()
           .withMessage("Le champ nom est obligatoire.")
           .isAlphanumeric("fr-FR", { ignore: " -" })
           .withMessage("Le champ nom contient des caractères non autorisés.");
@@ -50,19 +60,17 @@ exports.db_obj_store = [
       return res.status(500).render("err", { errors: errors.array() });
     }
 
-    let data;
-    switch (req.params.obj) {
-      case "movie":
-        data = await makeObj("movie", req.body, false);
-        break;
-      default:
-        data = {
-          name: req.body.name,
-          url: req.body.url,
-        };
+    let doc;
+    if (req.body.isFromDB) {
+      const Model = require("../models/" + req.params.obj);
+      doc = await dbGetObjById(req.params.obj, req.body.id);
+      await updateObj(req.params.obj, doc, req.body);
+    } else {
+      doc = await makeObj(req.params.obj, req.body);
     }
+
     try {
-      await dbSaveObj(req.params.obj, data);
+      await dbSaveObj(doc);
     } catch (err) {
       return next(err);
     }

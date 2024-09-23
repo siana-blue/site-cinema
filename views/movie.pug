@@ -1,9 +1,9 @@
 mixin movie_detail(movie, edit)
   article 
-    h3= movie.title 
+    h3 #{movie.title} 
     if (edit)
-      form(action='/movie/form' method='POST') 
-        input(type='hidden' name='movie_id' value=movie._id)
+      form(action='/movies/form' method='GET') 
+        input(type='hidden' name='id' value=movie._id)
         button(type='submit') Modifier
     .affiche-principal 
       img(
@@ -37,3 +37,5 @@ mixin movie_detail(movie, edit)
         if movie.genre
           |  - Genre : 
           a(href=movie.genre.url?movie.genre.url:"#" target="_blank") #{movie.genre.name}
+    h4 Synopsis 
+    p #{movie.synopsis}

@@ -7,6 +7,9 @@ block content
   script(src="scripts/movie_form.js", defer="")
 
   form#movie-form.page-form(action='/movies/form' method='POST')
+    input(type='hidden' name='isFromDB' value=isFromDB?"true":"")
+    if (movie)
+      input(type='hidden' name='id' value=movie._id)
     label(for='title') Titre du film :
     input#title(type='text' name='title' value=movie?movie.title:'' required)
     label(for='director') Réalisateur :
@@ -43,14 +46,18 @@ block content
           option(value=genre._id selected) #{genre.name}
         else 
           option(value=genre._id) #{genre.name}
+    label(for='synopsis') Synopsis :
+    textarea#synopsis(name='synopsis' rows="7" cols="33")
+      if (movie && movie.synopsis)
+        | #{movie.synopsis}
     button#movie-preview-btn(type='submit') Prévisualiser
-    - if (preview)
+    if (movie)
       button#movie-create-btn(type='submit' formaction='/db/movie') Ajouter ce film à la base de données
   
   +person_form
   +genre_form
 
-  - if (preview)
+  if (movie)
     section#affiche.alaffiche
       h2 Prévisualisation
       

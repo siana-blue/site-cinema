@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+// Les require suivants sont nécessaires pour garantir qu'un "populate"
+// se comporte bien en important les schémas liés
 const Person = require("./person");
+const Genre = require("./genre");
 
 const Schema = mongoose.Schema;
 
@@ -18,6 +21,7 @@ const MovieSchema = new Schema({
     message: (p) => `${p} n'est pas une durée valide.`,
   },
   genre: { type: Schema.Types.ObjectId, ref: "Genre" },
+  synopsis: { type: String },
 });
 MovieSchema.set("toJSON", { virtuals: true });
 
