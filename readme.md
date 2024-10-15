@@ -26,13 +26,7 @@ Toutes les autres pages sont du HTML/CSS pur et ne nécessitent pas JS.
 Le backend prend de l'importance pour la mise à jour du site par le webmaster.
 
 Il fonctionne sur le principe des tutoriels Express de MDN et d'OpenClassrooms (en gros), avec Express et les vues PUG, ainsi qu'une base de données MongoDB.
-Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie/form", on peut renseigner les propriétés d'un film.
-Avec le bouton prévisualiser, l'affiche et les caractéristiques du film apparaissent sous le formulaire comme ils apparaîtront dans les sections "à l'affiche". Ensuite, un bouton apparaît alors pour ajouter le film à la base de données MongoDB. L'utilisateur est alors redirigé vers la page d'accueil.
-
-A termes, il sera amené vers une page d'administration où tous les films de la base de données seront listés, et où l'administrateur pourra choisir ceux à afficher et à quelles dates.
-
-Je supprime l'explication du workflow que j'avais en tête, car il faut que je repense tout.
-Je code un peu au fil de l'eau jusqu'à maintenant, pour appliquer les concepts appris. Il faut dorénavant que je trace un schéma clair de mon site et de comment je veux qu'il fonctionne.
+Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie/form", on peut renseigner les propriétés d'un film (id TMDB via l'API, horaires des séances...).
 
 ## Notes
 
@@ -44,15 +38,9 @@ Pour le fichier movie.pug, je ne veux pas demander à l'utilisateur d'entrer ces
 
 La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actuellement.
 
-Pour la validation des champs renseignés lors de l'ajout d'un film, il faudrait le faire dès la preview.
-
-Il faudra penser à enlever la référence à l'URL localhost notamment dans le script client "movies_list.js"
-
-Les champs escape, notamment le titre des films, génèrent des codes HTML dans la base de données : .replace("&#x27;", "'") est donc parfois utilisé un peu partout lors de la lecture des données, il faudrait centraliser cette gestion.
-
-Pour le formulaire movie-form.pug, certains champs (actors) reçoivent des données d'un input hidden, donc une String, qu'il faut convertir en tableau pour avoir un format de données adéquat pour son traitement ensuite. Cela fait du code répétitif. J'aurai voulu convertir cela en front end avant envoi au back end, en gérant le submit event en front end avant d'envoyer un formulaire dont les données (FormData) sont modifiées, au backend. Je n'y arrive pas ! Ce sera à travailler. (voir méthode "hidden" et le script public/scripts/movie_form.js)
-
 Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
+
+Des fichiers seront à supprimer, après refonte de refonte du code, du ménage est à faire. Je m'en occuperai dès que j'aurai une version viable.
 
 ## Architecture
 

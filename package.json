@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
     "mongoose": "^8.5.1",
+    "moviedb-promise": "^4.0.7",
     "pug": "^3.0.3"
   }
 }

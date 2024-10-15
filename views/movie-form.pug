@@ -1,64 +1,41 @@
 extends layout 
 
-include ./movie.pug
-include ./person-form.pug
-include ./genre-form.pug
 block content
-  script(src="scripts/movie_form.js", defer="")
+  script(src="/scripts/movie_form.js", defer="")
 
-  form#movie-form.page-form(action='/movies/form' method='POST')
-    input(type='hidden' name='isFromDB' value=isFromDB?"true":"")
-    if (movie)
-      input(type='hidden' name='id' value=movie._id)
-    label(for='title') Titre du film :
-    input#title(type='text' name='title' value=movie?movie.title:'' required)
-    label(for='director') Réalisateur :
-    select#director(name='director_id')
-      option(value=null) -- Sélectionner un réalisateur --
-      each person in persons 
-        if (movie && movie.director && person._id.toString() === movie.director._id.toString())
-          option(value=person._id selected) #{person.name}
-        else 
-          option(value=person._id) #{person.name}
-    label(for='rating') Avis :
-    input#rating(type='range' name='rating' value=movie?movie.rating:3 min='1' max='5')
-    label(for='actors') Acteurs :
-    select#actors(name='actors_id_tmp')
-      option(value=null) -- Ajouter un acteur --
-      each person in persons 
-        option(value=`${person._id};${person.name}`) #{person.name}
-    .current-selection-list 
-      if (movie)
-        each actor in movie.actors 
-          div
-            p
-              span(hidden="") #{actor.id};
-              |#{actor.name}
-            button &times;
-    input(type='hidden' name='actors_id_hid')
-    label(for='length') Durée (format - 0h00 / 00m) :
-    input#length(type='text' name='length' value=movie?movie.length:'')
-    label(for='genre') Genre :
-    select#genre(name='genre_id')
-      option(value=null) -- Sélectionner un genre --
-      each genre in genres
-        if (movie && movie.genre && genre._id.toString() === movie.genre._id.toString())
-          option(value=genre._id selected) #{genre.name}
-        else 
-          option(value=genre._id) #{genre.name}
-    label(for='synopsis') Synopsis :
-    textarea#synopsis(name='synopsis' rows="7" cols="33")
-      if (movie && movie.synopsis)
-        | #{movie.synopsis}
-    button#movie-preview-btn(type='submit') Prévisualiser
-    if (movie)
-      button#movie-create-btn(type='submit' formaction='/db/movie') Ajouter ce film à la base de données
-  
-  +person_form
-  +genre_form
+  form#movie-form.page-form(action='/movies/form', method='POST')
+    input#query-input(type='text' placeholder='Recherche de films par mots-clés')
+    .search-nav-ctrl
+      button#previous-result-btn(type='button' disabled) <
+      button#search-movie-btn(type='button') Rechercher
+      button#next-result-btn(type='button' disabled) >
+    .alaffiche.hidden
+    input#movie-tmdb-id(type='hidden' name='movie_tmdb_id')
+    .block-form#session-block
+      h3 Séances
+      a.link-btn(href='#session-popup') +
+      .current-selection-list
+    input#sessions-hid(type='hidden' name='sessions')
+    .block-form
+      fieldset#tags-select 
+        legend Séance spéciale
+        each tag, index in tags
+          div 
+            input(type='checkbox' id="tag-" + index name = "tag_" + index)
+            label(for="tag-" + index) #{tag}
+    button#save-btn(type='submit') Enregistrer
 
-  if (movie)
-    section#affiche.alaffiche
-      h2 Prévisualisation
-      
-      +movie_detail(movie)
+  .popup#session-popup
+    form
+      a(href='#') &times;
+      label(for='session-date') Date :
+      input#session-date(type='date') 
+      label(for='session-time') Heure :
+      input#session-time(type='time' value='20:30')
+      label(for='session-room') Salle :
+      input#session-room(type='number' min='1' max='2' value='1')
+      select#session-version
+        option(value="") -- Choisir une version (facultatif) --
+        each version in versions 
+          option(value=version) #{version}
+      button#session-form-btn(type='button') Ajouter

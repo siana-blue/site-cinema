@@ -1,0 +1,41 @@
+mixin movie_detail(movie, edit)
+  article 
+    h3 #{movie.title} 
+    if (edit)
+      form(action='/movies/form' method='GET') 
+        input(type='hidden' name='id' value=movie._id)
+        button(type='submit') Modifier
+    
+    .affiche-principal 
+      img(
+        src= movie.poster_path
+        alt= "Affiche du film " + movie.title
+        width= 150
+        height= 200
+      )
+    
+      div 
+        if movie.director
+          p
+            | Réalisé par 
+            a(href=movie.director.url?movie.director.url:"#" target="_blank") #{movie.director.name}
+        else 
+          p Réalisateur non renseigné
+        p
+          | Avis - #{Math.round(movie.rating)}/10
+      p 
+        if movie.actors.length > 0
+          | Avec 
+          - for (let i=0;i<movie.actors.length;i++)
+            - const url = movie.actors[i].url ?? "#"
+              a(href=url target="_blank") #{movie.actors[i].name}#{(i < movie.actors.length-1)?", ":""}
+        else 
+          | Acteurs non renseignés
+        br
+        | Durée : 
+        b #{movie.runtime}
+        |  min
+        if movie.genre
+          |  - Genre : #{movie.genre}
+    h4 Synopsis 
+    p #{movie.overview}

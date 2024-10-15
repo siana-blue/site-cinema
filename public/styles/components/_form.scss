@@ -1,29 +1,49 @@
+@use "../variables" as *;
+
 .page-form {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-gap: 0.8em;
+  display: flex;
+  flex-direction: column;
   margin: 1em;
+  gap: 1em;
 
-  label {
-    color: white;
-    margin-right: 1em;
-    text-align: right;
+  .block-form {
+    background-color: $neutral-color;
+    display: flex;
+    flex-direction: column;
+
+    * {
+      margin: 0.3em;
+    }
+
+    fieldset {
+      display: flex;
+      flex-direction: row;
+    }
   }
 
-  button {
-    grid-column: 2 / 3;
+  .link-btn {
+    border: solid black 1px;
+    border-radius: 20%;
+    padding: 0.05em 0.3em;
+    background-color: white;
+    width: fit-content;
+    height: auto;
   }
-  legend {
-    grid-column: 1 / 3;
-    color: white;
+
+  .search-nav-ctrl {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0% 20%;
   }
 
   .current-selection-list {
     grid-column: 2 / 3;
-    color: white;
+    color: black;
+    font-weight: bold;
 
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     flex-wrap: wrap;
     font-family: "Raleway", sans-serif;
 
@@ -35,15 +55,61 @@
       padding-right: 1em;
 
       button {
-        color: white;
+        color: black;
         background: none;
         border: none;
         font-size: 1.5em;
 
         &:hover {
-          color: darken(white, 40%);
+          color: lighten(black, 40%);
         }
       }
+    }
+  }
+}
+
+.popup {
+  visibility: hidden;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+
+  a {
+    grid-column: 1 / 3;
+    text-align: right;
+  }
+
+  &:target {
+    visibility: visible;
+  }
+
+  form {
+    background-color: $neutral-color;
+    border: black 1px solid;
+    padding: 0.5em;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1.3em;
+    row-gap: 0.3em;
+
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    height: 40%;
+    z-index: 10;
+
+    select,
+    button {
+      grid-column: 1 / 3;
+    }
+    button {
+      grid-row: span 3;
+      margin-top: 2em;
     }
   }
 }

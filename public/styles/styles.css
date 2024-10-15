@@ -95,6 +95,10 @@ iframe {
   border-radius: 0.8rem;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .theme-cinema {
   background-image: url("../img/background-cinema.jpg");
   background-position: 0 200px;
@@ -969,28 +973,44 @@ aside {
 }
 
 .page-form {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-gap: 0.8em;
+  display: flex;
+  flex-direction: column;
   margin: 1em;
+  gap: 1em;
 }
-.page-form label {
-  color: white;
-  margin-right: 1em;
-  text-align: right;
+.page-form .block-form {
+  background-color: darkgray;
+  display: flex;
+  flex-direction: column;
 }
-.page-form button {
-  grid-column: 2/3;
+.page-form .block-form * {
+  margin: 0.3em;
 }
-.page-form legend {
-  grid-column: 1/3;
-  color: white;
+.page-form .block-form fieldset {
+  display: flex;
+  flex-direction: row;
+}
+.page-form .link-btn {
+  border: solid black 1px;
+  border-radius: 20%;
+  padding: 0.05em 0.3em;
+  background-color: white;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: auto;
+}
+.page-form .search-nav-ctrl {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 0% 20%;
 }
 .page-form .current-selection-list {
   grid-column: 2/3;
-  color: white;
+  color: black;
+  font-weight: bold;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   flex-wrap: wrap;
   font-family: "Raleway", sans-serif;
 }
@@ -1002,11 +1022,51 @@ aside {
   padding-right: 1em;
 }
 .page-form .current-selection-list div button {
-  color: white;
+  color: black;
   background: none;
   border: none;
   font-size: 1.5em;
 }
 .page-form .current-selection-list div button:hover {
-  color: #999999;
+  color: #666666;
+}
+
+.popup {
+  visibility: hidden;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.popup a {
+  grid-column: 1/3;
+  text-align: right;
+}
+.popup:target {
+  visibility: visible;
+}
+.popup form {
+  background-color: darkgray;
+  border: black 1px solid;
+  padding: 0.5em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1.3em;
+  row-gap: 0.3em;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  height: 40%;
+  z-index: 10;
+}
+.popup form select,
+.popup form button {
+  grid-column: 1/3;
+}
+.popup form button {
+  grid-row: span 3;
+  margin-top: 2em;
 }/*# sourceMappingURL=styles.css.map */
