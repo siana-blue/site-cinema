@@ -24,10 +24,12 @@ app.use(express.static("public"));
 const moviesRouter = require("./routes/movies");
 const dbRouter = require("./routes/db");
 const infoRouter = require("./routes/info");
+const pageRouter = require("./routes/page");
 
 app.use("/movies", moviesRouter);
 app.use("/db", dbRouter);
 app.use("/info", infoRouter);
+app.use("/page", pageRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

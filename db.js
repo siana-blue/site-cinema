@@ -1,122 +1,125 @@
-const moviePopulateStr = "director actors genre";
+// Méthodes d'interface avec MongoDB ou TMDB
 
 /*
- * Crée un objet sans passer par une requête MongoDB,
- * mais en utilisant un schéma et en réalisant le populate nécessaire
- * si précisé en paramètre
+ * Retourne un objet MovieDB pour interface avec TMDB
  */
-exports.makeObj = async (obj, data) => {
-  switch (obj) {
-    case "movie":
-      const Movie = require("./models/movie");
+async function movieDB() {
+  const { readFile } = require("fs/promises");
+  const { moviedbFile } = require("./var");
+  const apikey = await readFile("./" + moviedbFile, { encoding: "utf8" });
 
-      const movie = new Movie({
-        _id: data.id,
-        title: data.title,
-        director: data.director_id,
-        rating: data.rating,
-        actors: data.actors_id_hid.split(";"),
-        length: data.length,
-        genre: data.genre_id,
-        synopsis: data.synopsis,
-      });
-      await movie.populate(moviePopulateStr);
-      return movie;
-    case "genre":
-    case "person":
-      const Model = require("./models/" + obj);
-      const model = new Model({
-        name: data.name,
-        url: data.url,
-      });
-      return model;
-    default:
-      throw new Error("Invalid request: unknown model.");
-  }
-};
-exports.updateObj = async (obj, doc, data) => {
-  switch (obj) {
-    case "movie":
-      doc.title = data.title;
-      doc.director = data.director_id;
-      doc.rating = data.rating;
-      doc.actors = data.actors_id_hid.split(";");
-      doc.length = data.length;
-      doc.genre = data.genre_id;
-      doc.synopsis = data.synopsis;
-      break;
-    case "genre":
-    case "person":
-      doc.name = data.name;
-      doc.url = data.url;
-      break;
-    default:
-      throw new Error("Invalid request: unknown model.");
-  }
-};
+  const { MovieDb } = require("moviedb-promise");
 
-exports.dbGetObjById = async (obj, id) => {
-  const Model = require("./models/" + obj);
-  let qry = Model.findOne({ _id: id });
-  switch (obj) {
-    case "movie":
-      qry.populate(moviePopulateStr);
-      break;
-    default:
-      break;
-  }
+  return new MovieDb(apikey);
+}
 
-  const o = await qry;
-  return o;
+/*
+ * Retourne la liste des ID TMDB à partir d'un mot-clé de recherche
+ */
+
+exports.tmdbIDSearch = async function (title) {
+  const moviedb = await movieDB();
+
+  const mov = await moviedb.searchMovie({
+    query: title,
+    language: "fr",
+  });
+  let movieIds = [];
+  mov.results.forEach((result) => movieIds.push(result.id));
+  return movieIds;
 };
 
 /*
- * Retourne un tableau d'objets correspondant à une requête vers
- * la base de données MongoDB.
+ * Retourne un objet 'movie' selon la structure suivante, à partir d'un
+ * ID de TMDB.
  *
- * @param obj: la classe des objets à récupérer
- * @param options: les options de filtres
- *
- * options est de la forme :
- * {limit: <nombre>, sort: <nom d'un membre de la classe de l'objet>}
- * Chaque champ peut être omis si la recherche ne le requiert pas.
- * Typiquement, envoyer "req.query" ou {sort: "name", limit: 5}...
- *
- * Les options peuvent être les suivantes :
- * - limit : limite le nombre de résultats
- * - sort : tri sur le champ spécifié, cette fonction décide alors si
- * le tri est croissant ou décroissant
+ * {
+ *  movie.title,
+ *  movie.overview,
+ *  movie.poster_path,
+ *  movie.rating,
+ *  movie.runtime,
+ *  movie.actors[](name, url),
+ *  movie.director[](name, url)
+ * }
  */
-exports.dbGetObjs = async (obj, options) => {
-  const Model = require("./models/" + obj);
-  let qry = Model.find();
-  switch (obj) {
-    case "movie":
-      qry.populate(moviePopulateStr);
-      break;
-    default:
-      break;
-  }
 
-  // Application des paramètres pour tri et filtres
-  if (options.limit) {
-    qry.limit(options.limit);
-  }
-  if (options.sort) {
-    let order = "asc";
-    switch (options.sort) {
-      case "rating":
-        order = "desc";
-        break;
+exports.tmdbIDMovie = async function (tmdbID) {
+  const moviedb = await movieDB();
+
+  let movie = {};
+  const mov = await moviedb.movieInfo({
+    id: tmdbID,
+    language: "fr",
+    append_to_response: "credits",
+  });
+  movie.title = mov.title;
+  movie.overview = mov.overview;
+  movie.poster_path = "https://image.tmdb.org/t/p/original/" + mov.poster_path;
+  movie.rating = mov.vote_average;
+  movie.runtime = mov.runtime;
+  if (mov.genres.length > 0) movie.genre = mov.genres[0].name;
+
+  movie.actors = [];
+  mov.credits.cast.sort(function (a, b) {
+    return a.order - b.order;
+  });
+  mov.credits.cast = mov.credits.cast.slice(0, 3);
+  mov.credits.cast.forEach((person) => {
+    movie.actors.push({
+      name: person.name,
+      url: "https://image.tmdb.org/t/p/original/" + person.profile_path,
+    });
+  });
+  mov.credits.crew.forEach((person) => {
+    if (person.job === "Director") {
+      movie.director = {
+        name: person.name,
+        url: "https://image.tmdb.org/t/p/original/" + person.profile_path,
+      };
     }
-    qry.sort({ [options.sort]: order }).collation({ locale: "fr" });
-  }
+  });
 
-  // Exécution de la requête
-  const objs = await qry;
-  return objs;
+  return movie;
 };
 
-exports.dbSaveObj = async (data) => {
-  await data.save();
+/*
+ * Retourne un tableau de couple de dates, correspondant au début
+ * et à la fin de semaines allant du mercredi au mardi.
+ *
+ * La date de départ est la date actuelle.
+ *
+ * Le tableau retourné est de la forme :
+ * [[mercredi, mardi], [mercredi, mardi] ... x4]
+ */
+exports.weekDates = function () {
+  let weeks = [];
+
+  let wednesday = new Date();
+  while (wednesday.getDay() !== 3) wednesday.setDate(wednesday.getDate() - 1);
+  let tuesday = new Date(wednesday);
+  tuesday.setDate(wednesday.getDate() + 6);
+  for (let i = 0; i < 4; i++) {
+    weeks.push({ firstDay: new Date(wednesday), lastDay: new Date(tuesday) });
+
+    wednesday.setDate(wednesday.getDate() + 7);
+    tuesday.setDate(tuesday.getDate() + 7);
+  }
+
+  return weeks;
+};
+
+/*
+ * Retourne la liste des films dont au moins une séances est comprise
+ * entre deux dates (depuis MongoDB).
+ */
+exports.movieSessions = async function (minDate, maxDate) {
+  const Movie = require("./models/movie");
+  const movies = await Movie.find()
+    .elemMatch("sessions", {
+      $and: [{ date: { $gte: minDate } }, { date: { $lte: maxDate } }],
+    })
+    .exec();
+
+  return movies;
 };

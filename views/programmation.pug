@@ -1,10 +1,75 @@
 extends layout 
 
+include ./movie-detail.pug
+
 block content 
   section#affiche.alaffiche
-    h2 Semaine du 25 au 29 avril
-    
-    include ./movie.pug
+    each week, index in weeks
+      h2 #{week.name}
+      each movie in movies[index]
+        article
+          +movie_detail(movie.movie, false)
+          .affiche-horaires 
+            h4.WRAPPED Horaires 
+            div
+              p Salle 1
+              p Salle 2
+          table 
+            thead 
+              tr 
+                th Mercredi 
+                th Jeudi 
+                th Vendredi 
+                th Samedi 
+                th Dimanche 
+                th Lundi 
+                th Mardi 
+            tbody
+            -
+              let date = new Date(week.firstDay);
+              date.setHours(0);
+              date.setMinutes(0);
+              date.setSeconds(0);
+              date.setMilliseconds(0);
+              let inds = [];
+            tr
+              - for (let i=0;i<7;i++)
+                -
+                  let caseText = "-";
+                  let className = "";
+
+                  for (let ind = 0;ind < movie.sessions.length;ind++) {
+                    let movieDate = movie.sessions[ind].date;
+                    movieDate.setHours(0);
+                    if (movieDate.valueOf() === date.valueOf())  {
+                      caseText = movie.sessions[ind].startingTime;
+                      className = "horaire-s" + movie.sessions[ind].room;
+                      inds.push(ind);
+                      break;
+                    }
+                    if (ind === movie.sessions.length-1)
+                      inds.push(-1);
+                  }
+                  date.setDate(date.getDate() + 1);
+                td(class=className) #{caseText}
+              - date.setDate(date.getDate() - 7);
+            tr
+              - for (let i=0;i<7;i++)
+                -
+                  let caseText = "-";
+                  let className = "";
+
+                  for (let ind = inds[i]+1;ind < movie.sessions.length;ind++) {
+                    let movieDate = movie.sessions[ind].date;
+                    movieDate.setHours(0);
+                    if (movieDate.valueOf() === date.valueOf())  {
+                      caseText = movie.sessions[ind].startingTime;
+                      className = "horaire-s" + movie.sessions[ind].room;
+                      break;
+                    }
+                  }
+                  date.setDate(date.getDate() + 1);
+                td(class=className) #{caseText}
 
   p.top-page
     a(href='#top-page') &#x2C4;
