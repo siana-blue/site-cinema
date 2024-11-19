@@ -2,7 +2,6 @@ node_modules
 /public/img/*
 !/public/img/obfuscat.jpg
 /public/res
-/public/*_temp*
 moviedb.txt
 
 package-lock.json

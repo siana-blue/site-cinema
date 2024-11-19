@@ -22,12 +22,10 @@ app.use(express.static("public"));
 
 // Définition des routes
 const moviesRouter = require("./routes/movies");
-const dbRouter = require("./routes/db");
 const infoRouter = require("./routes/info");
 const pageRouter = require("./routes/page");
 
 app.use("/movies", moviesRouter);
-app.use("/db", dbRouter);
 app.use("/info", infoRouter);
 app.use("/page", pageRouter);
 

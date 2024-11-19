@@ -7,26 +7,32 @@ Il est également un projet associatif puisqu'il a pour vocation à mettre à jo
 Frontend : HTML/CSS (Sass) - Javascript -- Pas de framework pour ce premier projet
 Backend : NodeJS - MongoDB -- Express (views : PUG)
 
-Les fichiers HTML sont "obfusqués" par mon chat (script obfuscat de mon repository "utils").
-Cela a été fait manuellement en prenant les fichiers HTML du répertoire "public" pour les traiter par "node ./obfuscat.js" du repository "utils" avant de les replacer ici avant commit.
-
 ## Frontend
 
-Presque terminé pour la partie mise en page HTML/CSS, certains boutons ne sont pas encore actifs.
+Le dossier "public" est servi en statique par express. Il inclut les images et les PJ du site, ainsi que les feuilles de styles CSS (sous-dossier "styles") et les scripts exécutés côté client (sous-dossier "scripts").
 
-Le frontend est constitué de fichiers HTML/CSS statiques, stockés dans "public", transférés par la fonction express.static("public").
-Les views PUG ne sont utilisées que pour la mise en page par le webmaster, et non en dynamique sur requête de l'utilisateur.
+Les pages HTML sont générées côté serveur avec des templates PUG complétés par requêtes de BDD.
 
-Dans l'utilisation courante du site, tous les fichiers utiles sont ceux du répertoire "public" et sont fournis de manière statique par express.
-Le site est pensé pour pouvoir fonctionner sans javascript, donc sans génération de pages à la volée par PUG. Le seul script de ce répertoire est index.js, il sert à gérer le burger menu pour la version mobile (définie par la taille du navigateur uniquement).
-Toutes les autres pages sont du HTML/CSS pur et ne nécessitent pas JS.
+A IMPLEMENTER
+La page "index.html" est la seule a être statique et à contenir des composants AJAX. Le site étant prévu pour pouvoir être affiché sur une machine sans Javascript, les données "AJAX" sont optionnelles (affiche des films du moment, actualités etc...) et peuvent toutes être retrouvées par l'utilisateur via les pages spécialisées qui sont quant à elles servies en HTML statique par le backend (via templates PUG).
 
 ## Backend
 
-Le backend prend de l'importance pour la mise à jour du site par le webmaster.
+Express : view engine = PUG, sous-dossier des views nommé "views"
 
-Il fonctionne sur le principe des tutoriels Express de MDN et d'OpenClassrooms (en gros), avec Express et les vues PUG, ainsi qu'une base de données MongoDB.
-Dans cette nouvelle version, on s'approche de la version opérationnelle. Au moyen d'un formulaire actuellement caché à l'URL "[localhost]/movie/form", on peut renseigner les propriétés d'un film (id TMDB via l'API, horaires des séances...).
+Autres sous-dossiers du backend (tous les dossiers autres que "public") :
+
+- controllers
+- routes
+  Ces deux sous-dossiers contiennent des fichiers appairés (par exemple "pageController.js" et "page.js" respectivement). Le fichier du contrôleur contient un ensemble de méthodes, qui sont chacune liées à un URL dans le fichier route.
+- models
+  Ce dossier contient les modèles MongoDB (actuellement uniquement les séances des films, dans le dossier "movie.js").
+
+## Architecture du projet
+
+- Point d'entrée : server.js -> require app.js : création de l'app lancée sur le serveur
+- Variables globales : var.js
+- db.js : fichier regroupant les fonctions de requêtes sur BDD (actuellement MongoDB et API Tmdb pour les données sur les films)
 
 ## Notes
 
@@ -41,7 +47,3 @@ La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actu
 Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
 
 Des fichiers seront à supprimer, après refonte de refonte du code, du ménage est à faire. Je m'en occuperai dès que j'aurai une version viable.
-
-## Architecture
-
-Point d'entrée : server.js
