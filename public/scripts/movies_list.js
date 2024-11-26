@@ -3,23 +3,42 @@ function clearMovies() {
   movies.forEach((movie) => movie.remove());
 }
 
-async function displayMovies(sort, limit) {
-  let movies = await fetch(
-    `http://localhost:3000/db/movie?sort=${sort}&limit=${limit}`
-  ).then((movies) => movies.text());
+async function displayMovies(
+  sort = "",
+  filter = "",
+  startDate = "",
+  endDate = ""
+) {
+  let movies = fetch(
+    `http://localhost:3000/db/movies?sort=${sort}&filter=${filter}&start_date=${startDate}&end_date=${endDate}`
+  )
+    .then((movies) => movies.json())
+    .then((movies) => {
+      const listElement = document.querySelector(".alaffiche");
 
-  const listElement = document.querySelector(".alaffiche");
-  listElement.insertAdjacentHTML("beforeend", movies);
+      listElement.insertAdjacentHTML("beforeend", movies.html);
+    });
 }
 
-displayMovies("title", "10");
+displayMovies();
 
-const filterForm = document.querySelector(".alaffiche form");
-filterForm.addEventListener("submit", (event) => {
+const queryForm = document.querySelector(".alaffiche form");
+queryForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  if (filterForm.filters.value) {
-    clearMovies();
-    displayMovies(filterForm.filters.value, "10");
-  }
+  clearMovies();
+
+  let filters = "";
+  if (queryForm.elements["check_jeunesse"].checked) filters += "Jeunesse";
+  if (queryForm.elements["check_coupdecoeur"].checked)
+    filters += (filters ? "+" : "") + "Coup_de_coeur";
+  if (queryForm.elements["check_patrimoine"].checked)
+    filters += (filters ? "+" : "") + "Patrimoine";
+
+  displayMovies(
+    queryForm.elements["sorting"].value,
+    filters,
+    queryForm.elements["start_date"].value,
+    queryForm.elements["end_date"].value
+  );
 });

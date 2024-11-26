@@ -1,4 +1,5 @@
-include ./movie.pug
+include ./movie-detail.pug
 
 each movie in movies
-  +movie_detail(movie, edit)
+  article
+    +movie_detail(movie.tmdb, edit, movie.tmdb_id)

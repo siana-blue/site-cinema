@@ -3,25 +3,36 @@ extends layout
 block content
   script(src="/scripts/movie_form.js", defer="")
 
-  form#movie-form.page-form(action='/movies/form', method='POST')
+  form#movie-form.page-form(action='/movies', method='POST')
     input#query-input(type='text' placeholder='Recherche de films par mots-clés')
     .search-nav-ctrl
       button#previous-result-btn(type='button' disabled) <
       button#search-movie-btn(type='button') Rechercher
       button#next-result-btn(type='button' disabled) >
     .alaffiche.hidden
-    input#movie-tmdb-id(type='hidden' name='movie_tmdb_id')
+    input#movie-tmdb-id(type='hidden' name='movie_tmdb_id' value=(tmdbid?tmdbid:""))
     .block-form#session-block
       h3 Séances
       a.link-btn(href='#session-popup') +
       .current-selection-list
-    input#sessions-hid(type='hidden' name='sessions')
+    input#sessions-hid(type='hidden' name='sessions' value=(sessionList?sessionList:""))
+    input#movie-mongodbID-hid(type='hidden' name='mongodbID' value=(_id?_id:""))
     .block-form
       fieldset#tags-select 
         legend Séance spéciale
         each tag, index in tags
-          div 
-            input(type='checkbox' id="tag-" + index name = "tag_" + index)
+          -
+            var isChecked = false;
+            if (checkedTags) {
+              for (t of checkedTags) {
+                if (t === tag) {
+                  isChecked = true
+                  break;
+                }
+              }
+            }
+          div
+            input(type='checkbox' id="tag-" + index name = "tag_" + index checked=isChecked)
             label(for="tag-" + index) #{tag}
     button#save-btn(type='submit') Enregistrer
 

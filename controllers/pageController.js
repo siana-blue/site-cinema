@@ -1,4 +1,5 @@
-const { tmdbIDMovie, weekDates, movieSessions } = require("../db");
+const { tmdbIDMovie, movieSessions } = require("../db");
+const { weekDates } = require("../utils");
 
 exports.planning_page = async (req, res, next) => {
   const dates = weekDates();

@@ -13,9 +13,6 @@ Le dossier "public" est servi en statique par express. Il inclut les images et l
 
 Les pages HTML sont générées côté serveur avec des templates PUG complétés par requêtes de BDD.
 
-A IMPLEMENTER
-La page "index.html" est la seule a être statique et à contenir des composants AJAX. Le site étant prévu pour pouvoir être affiché sur une machine sans Javascript, les données "AJAX" sont optionnelles (affiche des films du moment, actualités etc...) et peuvent toutes être retrouvées par l'utilisateur via les pages spécialisées qui sont quant à elles servies en HTML statique par le backend (via templates PUG).
-
 ## Backend
 
 Express : view engine = PUG, sous-dossier des views nommé "views"
@@ -24,19 +21,56 @@ Autres sous-dossiers du backend (tous les dossiers autres que "public") :
 
 - controllers
 - routes
-  Ces deux sous-dossiers contiennent des fichiers appairés (par exemple "pageController.js" et "page.js" respectivement). Le fichier du contrôleur contient un ensemble de méthodes, qui sont chacune liées à un URL dans le fichier route.
+  Ces deux sous-dossiers contiennent des fichiers appairés (par exemple "pageController.js" et "page.js" respectivement). Le fichier du contrôleur contient un ensemble de méthodes, qui sont chacune liées à un URL dans le fichier du routeur.
 - models
-  Ce dossier contient les modèles MongoDB (actuellement uniquement les séances des films, dans le dossier "movie.js").
+  Ce dossier contient les modèles MongoDB (actuellement uniquement les séances des films, dans le fichier "movie.js").
 
 ## Architecture du projet
 
 - Point d'entrée : server.js -> require app.js : création de l'app lancée sur le serveur
 - Variables globales : var.js
-- db.js : fichier regroupant les fonctions de requêtes sur BDD (actuellement MongoDB et API Tmdb pour les données sur les films)
+- Fonctions génériques : utils.js
+
+## Liste des URLs
+
+### MOVIES : gestion des films et des séances
+
+GET /movies : liste des films depuis MongoDB
+
+- render via PUG la structure de la page, chargement du script côté client
+- le script client effectue les requêtes MongoDB (tris et filtres) et affiche les films (via famille d'URL DB)
+
+GET /movies/new : charge le formulaire de création d'un nouveau film
+GET /movies/:id : charge le formulaire de création d'un film, initialisé avec le film dont l'ID TMDB est spécifié, ou redirige vers "new" si l'ID est introuvable.
+
+- dans les deux cas, un script client accompagne le formulaire (généré par PUG) pour gérer la sélection d'un film depuis TMDB à partir d'une recherche textuelle. L'interface entre ce script client et l'API TMDB se fait par les URL DB.
+
+POST /movies : en body, le contenu du formulaire de création d'un film => sauvegarde sous MongoDB.
+
+### DB : URL dédiés aux scripts clients pour requêtes AJAX
+
+La base MongoDB contient les films avec l'id TMDB, les tags associés au film (jeunesse, coup de coeur...) et les séances programmées.
+
+GET /db/tmdb?title : retourne une liste d'ID TMDB correspondant à la recheche textuelle "title"
+
+GET /db/info?id : retourne les données du film dont l'id TMDB est fourni en paramètre.
+
+GET /db/movies?sort=next_session|title&filter=Coup_de_coeur+Jeunesse+Patrimoine&start_date=dd-mm-yyyy&end_date=dd-mm-yyyy
+(Les critères de tri ne sont pas cumulables, les filtres le sont. Aucun paramètre n'est obligatoire.)
+
+- next_session : la première séance située après start_date (si précisée) est prise en compte pour le tri chronologique.
+
+Pour les deux dernières requêtes, la valeur de retour est un objet JSON {data, html} où data et HTML peuvent être des objets simples ou des tableaux s'il y a plusieurs valeurs de retours.
+data et HTML sont respectivement les données JSON brutes de la réponse, et une version rendered par PUG de ces mêmes données.
+
+### PAGE : génération des pages consultées par les utilisateurs
+
+Contrairement aux autres couples routeur/contrôleur, ici les URL associés n'ont pas de racine commune.
+
+GET / : génère la page d'accueil du site
+GET /planning : génère la page avec la programmation des quatre prochaines semaines
 
 ## Notes
-
-Le chat oublie des infos à certains endroits, obfuscat ne chasse pas le contenu des PUG notamment, mais rien n'est secret !
 
 J'essaye de spécifier en HTML les champs width et height des images, comme recommandé dans l'articile suivant :
 https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/

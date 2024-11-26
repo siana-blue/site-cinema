@@ -84,42 +84,31 @@ exports.tmdbIDMovie = async function (tmdbID) {
 };
 
 /*
- * Retourne un tableau de couple de dates, correspondant au début
- * et à la fin de semaines allant du mercredi au mardi.
+ * Retourne la liste des films dont au moins une séances est comprise
+ * entre deux dates (depuis MongoDB).
  *
- * La date de départ est la date actuelle.
- *
- * Le tableau retourné est de la forme :
- * [[mercredi, mardi], [mercredi, mardi] ... x4]
+ * Un tri est possible sur les tags passés en premier agument (tableau).
  */
-exports.weekDates = function () {
-  let weeks = [];
+exports.movieSessions = async function (tags, minDate, maxDate) {
+  const Movie = require("./models/movie");
+  const movieReq = Movie.find().elemMatch("sessions", {
+    $and: [{ date: { $gte: minDate } }, { date: { $lte: maxDate } }],
+  });
+  if (tags.length > 0) movieReq.where({ tags: { $all: tags } });
+  // lean to have JSON and be able to edit it later
+  const movies = await movieReq.lean().exec();
 
-  let wednesday = new Date();
-  while (wednesday.getDay() !== 3) wednesday.setDate(wednesday.getDate() - 1);
-  let tuesday = new Date(wednesday);
-  tuesday.setDate(wednesday.getDate() + 6);
-  for (let i = 0; i < 4; i++) {
-    weeks.push({ firstDay: new Date(wednesday), lastDay: new Date(tuesday) });
-
-    wednesday.setDate(wednesday.getDate() + 7);
-    tuesday.setDate(tuesday.getDate() + 7);
-  }
-
-  return weeks;
+  return movies;
 };
 
 /*
- * Retourne la liste des films dont au moins une séances est comprise
- * entre deux dates (depuis MongoDB).
+ * Retourne le film correspondant à l'ID passé en paramètre.
+ * L'objet au format JSON ne contient que les données de MongoDB,
+ * sans ajout issu de l'API TMDB.
  */
-exports.movieSessions = async function (minDate, maxDate) {
+exports.localMovie = async function (tmdbid) {
   const Movie = require("./models/movie");
-  const movies = await Movie.find()
-    .elemMatch("sessions", {
-      $and: [{ date: { $gte: minDate } }, { date: { $lte: maxDate } }],
-    })
-    .exec();
+  const movie = await Movie.findOne({ tmdb_id: tmdbid }).exec();
 
-  return movies;
+  return movie;
 };

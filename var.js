@@ -3,5 +3,5 @@ exports.mongoDB =
 
 exports.moviedbFile = "moviedb.txt";
 
-exports.movieTags = ["Jeunesse", "Patrimoine"];
+exports.movieTags = ["Jeunesse", "Patrimoine", "Coup de coeur"];
 exports.movieVersions = ["VOST", "VF"];

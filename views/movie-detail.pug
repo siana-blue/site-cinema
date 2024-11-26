@@ -1,9 +1,7 @@
-mixin movie_detail(movie, edit)
+mixin movie_detail(movie, edit, id)
   h3 #{movie.title} 
   if (edit)
-    form(action='/movies/form' method='GET') 
-      input(type='hidden' name='id' value=movie._id)
-      button(type='submit') Modifier
+    a.link-button(href="/movies/"+id) Modifier
   
   .affiche-principal 
     img(

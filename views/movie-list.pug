@@ -2,13 +2,24 @@ extends layout
 
 block content
   section.alaffiche
-    form
-      select#filters_select(name="filters")
-        option(value="" selected="") -- Filtrer selon --
+    form.param-form
+      select#sorting_select(name="sorting")
+        option(value="" selected="") -- Trier selon --
         option(value="title") Titre
-        option(value="director") Réalisateur
-        option(value="rating") Avis
-      button(type="submit") Test
+        option(value="next_session") Prochaine séance
+      fieldset 
+        legend Filtres
+        label(for="check_jeunesse") Jeunesse
+        input#check_jeunesse(type="checkbox", name="check_jeunesse")
+        label(for="check_coupdecoeur") Coup de coeur
+        input#check_coupdecoeur(type="checkbox", name="check_coupdecoeur")
+        label(for="check_patrimoine") Patrimoine
+        input#check_patrimoine(type="checkbox", name="check_patrimoine")
+      fieldset 
+        legend Séances comprises entre ces deux dates
+        input#start_date(type="date", name="start_date")
+        input#end_date(type="date", name="end_date")
+      button(type="submit") Appliquer
     h2 Liste des films
 
   script(src="scripts/movies_list.js", defer="")
