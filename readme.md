@@ -55,7 +55,7 @@ GET /db/tmdb?title : retourne une liste d'ID TMDB correspondant à la recheche t
 
 GET /db/info?id : retourne les données du film dont l'id TMDB est fourni en paramètre.
 
-GET /db/movies?sort=next_session|title&filter=Coup_de_coeur+Jeunesse+Patrimoine&start_date=dd-mm-yyyy&end_date=dd-mm-yyyy
+GET /db/movies?sort=next_session|title&filter=Coup_de_coeur+Jeunesse+Patrimoine&start_date=yyyy-mm-dd&end_date=yyyy-mm-dd
 (Les critères de tri ne sont pas cumulables, les filtres le sont. Aucun paramètre n'est obligatoire.)
 
 - next_session : la première séance située après start_date (si précisée) est prise en compte pour le tri chronologique.

@@ -3,8 +3,8 @@ extends layout
 include ./movie-detail.pug
 
 block content 
-  section#affiche.alaffiche
-    each week, index in weeks
+  each week, index in weeks
+    section.alaffiche(id="affiche" + ((index>0)?"-s+"+index:""))
       h2 #{week.name}
       each movie in movies[index]
         article

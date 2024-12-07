@@ -14,6 +14,9 @@ html(lang='fr')
     link(rel='stylesheet' href='/styles/reset.css')
     link(rel='stylesheet' href='/styles/styles.css')
     script(src='/scripts/index.js' defer='')
+    if scripts
+      for scr in scripts 
+        script(src='/scripts/' + scr + ".js" defer='')
   
   body(class=`${(theme ? theme : "theme-cinema")} ${layout}`)
     header#top-page
@@ -30,17 +33,19 @@ html(lang='fr')
     nav
       ul
         li
-          a(href='/index.html') Accueil
+          a(href='/') Accueil
         li
-          a(href='/programmation.html') A l&apos;affiche
+          a(href='/planning') A l&apos;affiche
         li.unfold
           button +
           a Prochainement
-          ul.dropdown
+          ul.dropdown#next-weeks-list
             li
-              a(href='/programmation.html#affiche-s+1') Semaine du 1er au 7 mai
+              a(href='/planning#affiche-s+1') Semaine +1
             li
-              a(href='/programmation.html#affiche-s+2') Semaine du 8 au 14 mai
+              a(href='/planning#affiche-s+2') Semaine +2
+            li
+              a(href='/planning#affiche-s+3') Semaine +3
         li
           a(href='/jeune-public.html') Jeune public
         li

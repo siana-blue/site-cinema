@@ -21,15 +21,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 // Définition des routes
-const indexRouter = require("./routes/index");
 const moviesRouter = require("./routes/movies");
 const dbRouter = require("./routes/db");
 const pageRouter = require("./routes/page");
 
-app.use("/", indexRouter);
 app.use("/movies", moviesRouter);
 app.use("/db", dbRouter);
-app.use("/page", pageRouter);
+app.use("/", pageRouter);
 
 // error handler
 app.use(function (err, req, res, next) {

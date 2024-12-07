@@ -1,6 +1,13 @@
 const { tmdbIDMovie, movieSessions } = require("../db");
 const { weekDates } = require("../utils");
 
+exports.index_page = async (req, res, next) => {
+  res.status(200).render("index", {
+    layout: "layout-accueil",
+    scripts: ["main"],
+  });
+};
+
 exports.planning_page = async (req, res, next) => {
   const dates = weekDates();
   let weeks = [];
@@ -19,7 +26,7 @@ exports.planning_page = async (req, res, next) => {
           (week.lastDay.getMonth() + 1),
         firstDay: week.firstDay,
       });
-      const mov = movieSessions(week.firstDay, week.lastDay);
+      const mov = movieSessions([], week.firstDay, week.lastDay);
       return mov;
     })
   );
@@ -33,7 +40,7 @@ exports.planning_page = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
+  console.log(movies);
   res.status(200).render("programmation", {
     weeks,
     movies,

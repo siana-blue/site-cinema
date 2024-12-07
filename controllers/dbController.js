@@ -1,3 +1,24 @@
+exports.get_weeks = async (req, res, next) => {
+  const { weekDates } = require("../utils");
+
+  const weeks = weekDates();
+  let weekTxts = [];
+  weeks.forEach((week) => {
+    let weekTxt = "Semaine du ";
+    if (week.firstDay.getMonth() === week.lastDay.getMonth())
+      weekTxt += `${week.firstDay.getDate()} au `;
+    else
+      weekTxt += `${week.firstDay.getDate()}/${
+        week.firstDay.getMonth() + 1
+      } au `;
+    weekTxt += `${week.lastDay.getDate()}/${week.lastDay.getMonth() + 1}`;
+
+    weekTxts.push(weekTxt);
+  });
+
+  res.status(200).json(weekTxts);
+};
+
 exports.get_tmdbID = async (req, res, next) => {
   const { tmdbIDSearch } = require("../db");
 

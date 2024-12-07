@@ -38,3 +38,14 @@ for (let i = 0; i < length; i++) {
     toggleMenuItem(ul);
   });
 }
+
+// Mise à jour des semaines suivantes (liens du menu)
+
+const nextweeksItems = document.querySelectorAll("#next-weeks-list li a");
+fetch("/db/utils/weeks")
+  .then((res) => res.json())
+  .then((result) => {
+    for (let i = 1; i < result.length; i++) {
+      nextweeksItems[i - 1].innerText = result[i];
+    }
+  });
