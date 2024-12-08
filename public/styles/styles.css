@@ -842,10 +842,14 @@ aside {
   width: 20%;
   height: -moz-fit-content;
   height: fit-content;
+  align-self: center;
   -o-object-fit: cover;
      object-fit: cover;
   margin-top: 0.8rem;
   margin-bottom: 1.3rem;
+}
+.alaffiche .affiche-jeunesse div {
+  width: 30%;
 }
 .alaffiche .affiche-jeunesse div img {
   width: 100%;

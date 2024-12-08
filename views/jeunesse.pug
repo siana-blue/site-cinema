@@ -1,0 +1,15 @@
+extends layout 
+
+block content
+  each week, index in weeks
+    section.alaffiche
+      article
+        h2 #{week.name}
+        .affiche-jeunesse
+          each movie, mIndex in movies[index]
+            if (mIndex > 0)
+              img(src='img/prog-jeunesse.webp' alt='Programme jeunesse' width='182' height='104')
+            div
+              img(src=movie.movie.poster_path alt=`Affiche du film ${movie.movie.title}` )
+              - for (let ind=0;ind<movie.sessions.length;ind++)
+                p #{movie.sessions[ind].dateText} &agrave; #{movie.sessions[ind].startingTime}

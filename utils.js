@@ -44,3 +44,76 @@ exports.dateFromText = function (dateText) {
 
   return dt;
 };
+
+/*
+ * Retourne un texte au format "Jeudi 9 décembre"
+ * à partir d'une date Javascript.
+ */
+exports.textFromDate = function (date) {
+  let dayText = "";
+  switch (date.getDay()) {
+    case 0:
+      dayText = "Dimanche";
+      break;
+    case 1:
+      dayText = "Lundi";
+      break;
+    case 2:
+      dayText = "Mardi";
+      break;
+    case 3:
+      dayText = "Mercredi";
+      break;
+    case 4:
+      dayText = "Jeudi";
+      break;
+    case 5:
+      dayText = "Vendredi";
+      break;
+    case 6:
+      dayText = "Samedi";
+      break;
+  }
+
+  let monthText = "";
+  switch (date.getMonth()) {
+    case 0:
+      monthText = "janvier";
+      break;
+    case 1:
+      monthText = "février";
+      break;
+    case 2:
+      monthText = "mars";
+      braek;
+    case 3:
+      monthText = "avril";
+      break;
+    case 4:
+      monthText = "mai";
+      break;
+    case 5:
+      monthText = "juin";
+      break;
+    case 6:
+      monthText = "juillet";
+      break;
+    case 7:
+      monthText = "août";
+      break;
+    case 8:
+      monthText = "septembre";
+      break;
+    case 9:
+      monthText = "octobre";
+      break;
+    case 10:
+      monthText = "novembre";
+      break;
+    case 11:
+      monthText = "décembre";
+      break;
+  }
+
+  return dayText + " " + date.getDate() + " " + monthText;
+};
