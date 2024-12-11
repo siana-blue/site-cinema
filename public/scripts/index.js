@@ -1,3 +1,47 @@
+// Gestion du token d'authentification
+
+const authLink = document.getElementById("auth-link");
+
+function logOut() {
+  sessionStorage.removeItem("loggedIn");
+  localStorage.removeItem("jwtToken");
+
+  authLink.innerText = "Connexion";
+  authLink.href = "/auth";
+  authLink.removeEventListener("click", logOut);
+}
+
+function loggedDisplay() {
+  authLink.innerText = "Déconnexion";
+  authLink.href = "";
+  authLink.addEventListener("click", logOut);
+}
+
+// Vérifie si un token est présent en localStorage
+// Puis si l'utilisateur est déjà connecté via la variable de session
+// si la session est vide, revérification du token qui a peut-être expiré
+// s'il n'a pas expiré et est bien valide, la variable de session est réactivée
+// S'il y a la moindre incohérence ou token expiré, le localStorage
+// et le sessionStorage sont effacés pour redemander une connexion.
+const jwtToken = localStorage.getItem("jwtToken");
+if (jwtToken) {
+  const isLoggedIn = sessionStorage.getItem("loggedIn") === "true";
+  if (isLoggedIn) {
+    loggedDisplay();
+  } else {
+    fetch("/auth/jwt?jwt=" + jwtToken).then((res) => {
+      if (res.status === 200) {
+        sessionStorage.setItem("loggedIn", "true");
+        loggedDisplay();
+      } else {
+        logOut();
+      }
+    });
+  }
+}
+
+// Mise en page générale
+
 function toggleMenu() {
   const navBlock = document.querySelector("nav");
   const bodyBlock = document.querySelector("body");

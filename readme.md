@@ -72,6 +72,10 @@ GET /planning : génère la page avec la programmation des quatre prochaines sem
 
 ## Notes
 
+!!! ATTENTION !!! L'URL MongoDB et l'ID TMDB ont été exposés lors de commit
+précédents avant que je pense à utiliser des variables d'environnement.
+Le mot de passe MongoDB est modifié. Vérifier pour TMDB si c'est grave.
+
 J'essaye de spécifier en HTML les champs width et height des images, comme recommandé dans l'articile suivant :
 https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/
 Pour le fichier movie.pug, je ne veux pas demander à l'utilisateur d'entrer ces champs, et je n'ai pas encore regardé comment les récupérer automatiquement, ainsi je mets par défaut les valeurs 150 et 200. Ce sera à améliorer.
@@ -80,4 +84,9 @@ La gestion des erreurs sera à approfondir plus tard, c'est très brouillon actu
 
 Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour avoir quelque chose de fonctionnel et on fera du rangement et du commentaire ensuite. Pour l'instant, trop d'apprentissage, trop de nouveaux concepts à chaque itération pour que je commence à tout bien structurer.
 
-Des fichiers seront à supprimer, après refonte de refonte du code, du ménage est à faire. Je m'en occuperai dès que j'aurai une version viable.
+Je pense que pour améliorer la structure du code, il ne faudrait pas que je mette autant de détail dans les fonctions des contrôleurs. Par exemple pour login, il faudrait que je fasse une fonction (par exemple dans "utils.js") pour gérer le login et le JWT, et que dans check_auth j'appelle cette fonction, pour découpler.
+
+J'utilise beaucoup await pour forcer du séquentiel (par facilité) alors que je pourrai utiliser des chaînes de .then. Ce sera à implémenter lors du refactor.
+Premier endroit où je pourrai faire cela : login.
+
+La gestion des password en clair dans la BDD est discutable (même si personne n'est censé y avoir accès et que la comparaison des password se fait uniquement côté serveur). Ici c'est un test il n'y a qu'un seul User dans MongoDB, admin/password. Mais pour des vrais users il faudrait peut-être utiliser bcrypt.

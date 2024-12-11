@@ -5,12 +5,10 @@
  */
 async function movieDB() {
   const { readFile } = require("fs/promises");
-  const { moviedbFile } = require("./var");
-  const apikey = await readFile("./" + moviedbFile, { encoding: "utf8" });
 
   const { MovieDb } = require("moviedb-promise");
 
-  return new MovieDb(apikey);
+  return new MovieDb(process.env.TMDB_AUTH);
 }
 
 /*
@@ -111,4 +109,12 @@ exports.localMovie = async function (tmdbid) {
   const movie = await Movie.findOne({ tmdb_id: tmdbid }).exec();
 
   return movie;
+};
+
+exports.checkUserCredentials = async function (login, password) {
+  const User = require("./models/user");
+  const user = await User.findOne({ login: login }).exec();
+
+  if (!user) return false;
+  return user.password === password;
 };
