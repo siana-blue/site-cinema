@@ -7,7 +7,11 @@ block content
     section.alaffiche(id="affiche" + ((index>0)?"-s+"+index:""))
       h2 #{week.name}
       each movie in movies[index]
-        article
+        -
+          let classAffiche = "";
+          if (movie.tags.includes("Coup de coeur"))
+            classAffiche = "affiche--coupcoeur";
+        article(class=classAffiche)
           +movie_detail(movie.movie, edit, movie.tmdb_id)
           .affiche-horaires 
             h4.WRAPPED Horaires 
@@ -43,6 +47,7 @@ block content
                     movieDate.setHours(0);
                     if (movieDate.valueOf() === date.valueOf())  {
                       caseText = movie.sessions[ind].startingTime;
+                      if (movie.sessions[ind].version) caseText += " " + movie.sessions[ind].version;
                       className = "horaire-s" + movie.sessions[ind].room;
                       inds.push(ind);
                       break;

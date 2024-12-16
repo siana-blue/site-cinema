@@ -89,6 +89,10 @@ exports.tmdbIDMovie = async function (tmdbID) {
  */
 exports.movieSessions = async function (tags, minDate, maxDate) {
   const Movie = require("./models/movie");
+  minDate.setUTCHours(0);
+  minDate.setUTCMinutes(0);
+  minDate.setUTCSeconds(0);
+  minDate.setUTCMilliseconds(0);
   const movieReq = Movie.find().elemMatch("sessions", {
     $and: [{ date: { $gte: minDate } }, { date: { $lte: maxDate } }],
   });

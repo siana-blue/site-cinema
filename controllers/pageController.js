@@ -40,10 +40,12 @@ exports.planning_page = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+  let edit = false;
+  if (req.cookies.jwtToken) edit = true;
   res.status(200).render("programmation", {
     weeks,
     movies,
-    edit: false,
+    edit,
   });
 };
 

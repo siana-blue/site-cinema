@@ -17,8 +17,6 @@ let adminLi = null;
 
 function logOut() {
   document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-  //sessionStorage.removeItem("loggedIn");
-  //localStorage.removeItem("jwtToken");
 }
 
 function loggedDisplay() {
@@ -35,22 +33,6 @@ function loggedDisplay() {
   navBar.insertBefore(adminLi, navBar.lastChild);
 }
 
-/* const jwtToken = localStorage.getItem("jwtToken");
-if (jwtToken) {
-  //const isLoggedIn = sessionStorage.getItem("loggedIn") === "true";
-  if (isLoggedIn) {
-    loggedDisplay();
-  } else {
-    fetch("/auth/jwt?jwt=" + jwtToken).then((res) => {
-      if (res.status === 200) {
-        sessionStorage.setItem("loggedIn", "true");
-        loggedDisplay();
-      } else {
-        logOut();
-      }
-    });
-  }
-} */
 const jwtToken = readCookie("jwtToken");
 if (jwtToken) loggedDisplay();
 

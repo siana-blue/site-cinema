@@ -19,8 +19,6 @@ loginForm.addEventListener("submit", (event) => {
       expireDate.setDate(expireDate.getDate() + 1);
       document.cookie =
         "jwtToken=" + token + "; expires=" + expireDate + "; path=/";
-      //localStorage.setItem("jwtToken", token);
-      //sessionStorage.setItem("loggedIn", "true");
 
       window.location.replace("/");
     }

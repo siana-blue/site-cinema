@@ -2,11 +2,24 @@ const express = require("express");
 const router = express.Router();
 
 const movies_controller = require("../controllers/moviesController");
+const auth_controller = require("../controllers/authController");
 
-router.get("/new", movies_controller.movie_form_get);
-router.get("/:id", movies_controller.movie_form_update);
-router.post("/", movies_controller.movie_form_post);
+router.get(
+  "/new",
+  auth_controller.middle_auth,
+  movies_controller.movie_form_get
+);
+router.get(
+  "/:id",
+  auth_controller.middle_auth,
+  movies_controller.movie_form_update
+);
+router.post(
+  "/",
+  auth_controller.middle_auth,
+  movies_controller.movie_form_post
+);
 
-router.get("/", movies_controller.movie_list);
+router.get("/", auth_controller.middle_auth, movies_controller.movie_list);
 
 module.exports = router;
