@@ -43,6 +43,7 @@ exports.planning_page = async (req, res, next) => {
   res.status(200).render("programmation", {
     weeks,
     movies,
+    edit: false,
   });
 };
 

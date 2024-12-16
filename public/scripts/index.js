@@ -1,31 +1,43 @@
+function readCookie(cookieName) {
+  const cookiesList = document.cookie.split(";");
+  for (let i = 0; i < cookiesList.length; i++) {
+    const cookieParts = cookiesList[i].split("=");
+    if (cookieParts[0] === cookieName) {
+      return cookieParts[1];
+    }
+  }
+  return null;
+}
+
 // Gestion du token d'authentification
 
 const authLink = document.getElementById("auth-link");
+const navBar = document.querySelector("nav ul");
+let adminLi = null;
 
 function logOut() {
-  sessionStorage.removeItem("loggedIn");
-  localStorage.removeItem("jwtToken");
-
-  authLink.innerText = "Connexion";
-  authLink.href = "/auth";
-  authLink.removeEventListener("click", logOut);
+  document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+  //sessionStorage.removeItem("loggedIn");
+  //localStorage.removeItem("jwtToken");
 }
 
 function loggedDisplay() {
   authLink.innerText = "Déconnexion";
-  authLink.href = "";
+  authLink.href = "/";
   authLink.addEventListener("click", logOut);
+
+  adminLi = document.createElement("li");
+  adminLi.style.backgroundColor = "blue";
+  const aAdmin = document.createElement("a");
+  aAdmin.href = "/movies";
+  aAdmin.innerText = "Admin";
+  adminLi.appendChild(aAdmin);
+  navBar.insertBefore(adminLi, navBar.lastChild);
 }
 
-// Vérifie si un token est présent en localStorage
-// Puis si l'utilisateur est déjà connecté via la variable de session
-// si la session est vide, revérification du token qui a peut-être expiré
-// s'il n'a pas expiré et est bien valide, la variable de session est réactivée
-// S'il y a la moindre incohérence ou token expiré, le localStorage
-// et le sessionStorage sont effacés pour redemander une connexion.
-const jwtToken = localStorage.getItem("jwtToken");
+/* const jwtToken = localStorage.getItem("jwtToken");
 if (jwtToken) {
-  const isLoggedIn = sessionStorage.getItem("loggedIn") === "true";
+  //const isLoggedIn = sessionStorage.getItem("loggedIn") === "true";
   if (isLoggedIn) {
     loggedDisplay();
   } else {
@@ -38,7 +50,9 @@ if (jwtToken) {
       }
     });
   }
-}
+} */
+const jwtToken = readCookie("jwtToken");
+if (jwtToken) loggedDisplay();
 
 // Mise en page générale
 

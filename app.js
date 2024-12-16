@@ -2,6 +2,9 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
+const cParser = require("cookie-parser");
+app.use(cParser());
+
 // Set up mongoose connection
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);

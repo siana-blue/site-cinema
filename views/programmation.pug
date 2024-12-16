@@ -8,7 +8,7 @@ block content
       h2 #{week.name}
       each movie in movies[index]
         article
-          +movie_detail(movie.movie, false)
+          +movie_detail(movie.movie, edit, movie.tmdb_id)
           .affiche-horaires 
             h4.WRAPPED Horaires 
             div

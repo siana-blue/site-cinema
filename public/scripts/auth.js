@@ -15,8 +15,12 @@ loginForm.addEventListener("submit", (event) => {
       errorMsg.innerText = "Connexion impossible";
     } else {
       const token = res.headers.get("Authorization").split(" ")[1];
-      localStorage.setItem("jwtToken", token);
-      sessionStorage.setItem("loggedIn", "true");
+      let expireDate = new Date();
+      expireDate.setDate(expireDate.getDate() + 1);
+      document.cookie =
+        "jwtToken=" + token + "; expires=" + expireDate + "; path=/";
+      //localStorage.setItem("jwtToken", token);
+      //sessionStorage.setItem("loggedIn", "true");
 
       window.location.replace("/");
     }

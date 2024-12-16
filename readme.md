@@ -74,7 +74,7 @@ GET /planning : génère la page avec la programmation des quatre prochaines sem
 
 !!! ATTENTION !!! L'URL MongoDB et l'ID TMDB ont été exposés lors de commit
 précédents avant que je pense à utiliser des variables d'environnement.
-Le mot de passe MongoDB est modifié. Vérifier pour TMDB si c'est grave.
+Le mot de passe MongoDB est modifié.
 
 J'essaye de spécifier en HTML les champs width et height des images, comme recommandé dans l'articile suivant :
 https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/
