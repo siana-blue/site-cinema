@@ -69,6 +69,7 @@ block content
                     movieDate.setHours(0);
                     if (movieDate.valueOf() === date.valueOf())  {
                       caseText = movie.sessions[ind].startingTime;
+                      if (movie.sessions[ind].version) caseText += " " + movie.sessions[ind].version;
                       className = "horaire-s" + movie.sessions[ind].room;
                       break;
                     }

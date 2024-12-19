@@ -4,7 +4,7 @@ html(lang='fr')
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     //- base(href='http://localhost:3000/')
-    title Le REX - Chauvigny
+    title Cinéma - Template
     // Fonts
     // Les rappels Google sont dans _base.scss
     link(rel='preconnect' href='https://fonts.googleapis.com')
@@ -20,16 +20,16 @@ html(lang='fr')
   
   body(class=`${(theme ? theme : "theme-cinema")} ${layout}`)
     header#top-page
-      img(src='/img/REX-Logo.webp' alt='Logo du cinéma Le REX - Chauvigny' width='188' height='188')
-      h1 Le REX - Chauvigny
+      img(src='/img/obfuscat.png' alt='Logo du cinéma' width='188' height='188')
+      h1 Cinéma - Template
       div
         a#auth-link(href='/auth') Connexion
-        a(href='https://www.facebook.com/CinemaChauvigny/' target='_blank')
-        img.NO-CAT(src='/img/Logo-facebook.webp' alt='Lien vers la page facebook' width='49' height='49')
+        a(href='https://www.facebook.com/' target='_blank')
+          img.NO-CAT(src='/img/Logo-facebook.webp' alt='Lien vers la page facebook' width='49' height='49')
         p
-          | 10 rue St Savin, BP 50
+          | 10 rue du chat Noé
           br
-          | 86300 CHAUVIGNY
+          | 86300 BONNES
     nav
       ul
         li
@@ -71,20 +71,20 @@ html(lang='fr')
       aside
         h2 Infos
         figure
-          img.logo(src='/img/REX-Logo.webp' alt='Logo du cinéma Le REX - Chauvigny' width='188' height='188')
-          img(src='/img/REX-vue_exterieur.webp' alt='Vue extérieure du cinéma Le REX - Chauvigny' width='288' height='265')
+          img.logo(src='/img/obfuscat.png' alt='Logo du cinéma' width='188' height='188')
+          img(src='/img/vue_exterieur.jpg' alt='Vue extérieure du cinéma' width='288' height='265')
         figure
-          img(src='/img/REX-vue_interieure_hall.webp' alt='Hall du cinéma Le REX - Chauvigny' width='363' height='240')
-          img(src='/img/REX-vue_interieure_hall2.webp' alt='Hall du cinéma Le REX - Chauvigny' width='363' height='273')
+          img(src='/img/vue_interieur.jpg' alt='Hall du cinéma' width='363' height='240')
+          img(src='/img/vue_interieur2.jpg' alt='Hall du cinéma' width='363' height='273')
           figcaption Hall
         figure
-          img(src='/img/REX-salle1.webp' alt='Salle 1 du cinéma Le REX - Chauvigny' width='363' height='273')
+          img(src='/img/REX-salle1.webp' alt='Salle 1 du cinéma' width='363' height='273')
           figcaption
           | Salle 1 - 154 places
           br
           mark Accessible aux personnes &agrave; mobilit&eacute; r&eacute;duite
         figure
-          img(src='/img/REX-salle2.webp' alt='Salle 2 du cinéma Le REX - Chauvigny' width='363' height='258')
+          img(src='/img/REX-salle2.webp' alt='Salle 2 du cinéma' width='363' height='258')
           figcaption Salle 2 - 62 places
 
       block content

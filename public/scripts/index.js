@@ -13,7 +13,6 @@ function readCookie(cookieName) {
 
 const authLink = document.getElementById("auth-link");
 const navBar = document.querySelector("nav ul");
-let adminLi = null;
 
 function logOut() {
   document.cookie = "jwtToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
@@ -24,12 +23,34 @@ function loggedDisplay() {
   authLink.href = "/";
   authLink.addEventListener("click", logOut);
 
-  adminLi = document.createElement("li");
+  const adminLi = document.createElement("li");
   adminLi.style.backgroundColor = "blue";
+  adminLi.classList.add("unfold");
+  const plusButton = document.createElement("button");
+  plusButton.innerText = "+";
   const aAdmin = document.createElement("a");
-  aAdmin.href = "/movies";
   aAdmin.innerText = "Admin";
+  const ulAdmin = document.createElement("ul");
+  ulAdmin.classList.add("dropdown");
+  ulAdmin.id = "next-weeks-list";
+  const listLi = document.createElement("li");
+  const listA = document.createElement("a");
+  listA.innerText = "Liste des films";
+  listA.href = "/movies";
+  listLi.appendChild(listA);
+  const newLi = document.createElement("li");
+  const newA = document.createElement("a");
+  newA.innerText = "Nouveau film";
+  newA.href = "/movies/new";
+  newLi.appendChild(newA);
+  ulAdmin.appendChild(listLi);
+  ulAdmin.appendChild(newLi);
+  listLi.style.backgroundColor = "blue";
+  newLi.style.backgroundColor = "blue";
+  adminLi.appendChild(plusButton);
   adminLi.appendChild(aAdmin);
+  adminLi.appendChild(ulAdmin);
+
   navBar.insertBefore(adminLi, navBar.lastChild);
 }
 

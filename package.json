@@ -1,7 +1,7 @@
 {
   "name": "rex-chauvigny",
   "version": "1.0.0",
-  "description": "Site web du cinéma Le REX - Chauvigny",
+  "description": "Site web du cinéma",
   "main": "server.js",
   "scripts": {
     "lint": "eslint ./public/scripts/*.js ./*.js",
