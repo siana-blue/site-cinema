@@ -116,9 +116,12 @@ exports.localMovie = async function (tmdbid) {
 };
 
 exports.checkUserCredentials = async function (login, password) {
+  const bcrypt = require("bcrypt");
+
   const User = require("./models/user");
   const user = await User.findOne({ login: login }).exec();
 
   if (!user) return false;
-  return user.password === password;
+  const valid = await bcrypt.compare(password, user.password);
+  return valid;
 };

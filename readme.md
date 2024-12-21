@@ -80,5 +80,9 @@ Un gros refactor du code sera nécessaire, je code ce site en "speedrun" pour av
 J'utilise beaucoup await pour forcer du séquentiel (par facilité) alors que je pourrai utiliser des chaînes de .then. Ce sera à implémenter lors du refactor.
 Premier endroit où je pourrai faire cela : login.
 
-La gestion des password en clair dans la BDD est discutable (même si personne n'est censé y avoir accès et que la comparaison des password se fait uniquement côté serveur). Ici c'est un test il n'y a qu'un seul User dans MongoDB, admin/password. Mais pour des vrais users il faudrait peut-être utiliser bcrypt.
+Utilisation de bcrypt, mais protocole HTTP tout du long. Je sais que ce n'est pas sûr et que le password clair client peut être intercepté,
+ainsi que les cookies de session. Cependant pour l'instant je ne convertis pas mon site en HTTPS juste pour cela surtout que j'aimerais trouver une solution
+alternative si cela existe. Le password est de toute façon disponible en clair dans la "notice du site" pour pouvoir tester les fonctions.
+Le seul impact de l'admin est de pouvoir ajouter des films depuis TMDB et des séances, rien de compromettant.
+
 Il n'y a qu'un seul user pour l'instant, "admin", et il faut le paramétrer directement sous MongoDB, le site ne le permet pas.
