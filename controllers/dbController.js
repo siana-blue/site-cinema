@@ -45,12 +45,16 @@ exports.get_info = async (req, res, next) => {
     );
   }
 
-  const movie = await tmdbIDMovie(req.query.id);
-  res.render("movie", { movie }, function (err, html) {
-    if (err) next(err);
+  try {
+    const movie = await tmdbIDMovie(req.query.id);
+    res.render("movie", { movie }, function (err, html) {
+      if (err) next(err);
 
-    res.status(200).json({ data: movie, html: html });
-  });
+      res.status(200).json({ data: movie, html: html });
+    });
+  } catch (err) {
+    if (err.status === 404) return; // peut mieux faire
+  }
 };
 
 exports.get_movies = async (req, res, next) => {
