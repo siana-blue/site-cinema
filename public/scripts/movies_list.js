@@ -10,7 +10,7 @@ async function displayMovies(
   endDate = ""
 ) {
   let movies = fetch(
-    `http://localhost:3000/db/movies?sort=${sort}&filter=${filter}&start_date=${startDate}&end_date=${endDate}`
+    `/db/movies?sort=${sort}&filter=${filter}&start_date=${startDate}&end_date=${endDate}`
   )
     .then((movies) => movies.json())
     .then((movies) => {
